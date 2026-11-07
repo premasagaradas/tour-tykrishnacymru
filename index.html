@@ -1,0 +1,1968 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>(Prema) Tŷ Krishna Tour Sandbox – with CGI clips</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Della+Respira&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans:wght@400;500;700&family=League+Spartan:wght@600;700&family=Tiro+Devanagari+Sanskrit&display=swap">
+<style>
+/* Layout: navy app chrome holding one rounded "screen" (the stage) that plays like a film; scenes cross-fade inside it.
+   Design language from Pali's brochure: sky blue and navy with gold flourishes, cream "vision" pages,
+   Della Respira headings, Cormorant small caps, rounded photo cards. Single deliberate look in both themes. */
+:root{
+  --navy:#0f1833;
+  --navy-2:#16224a;
+  --navy-3:#22335f;
+  --sky:#2f9fe5;
+  --sky-2:#6cc3f0;
+  --pale:#cfe2f5;
+  --cream:#fbf8f2;
+  --ivory:#f4efe6;
+  --gold:#d4b46a;
+  --gold-deep:#8c6a2a;
+  --brown:#7d5c3c;
+  --bronze:#b07a4a;
+  --silver:#8f9aab;
+  --gold-tier:#c9a443;
+  --f-display:"Della Respira","Cormorant Garamond",Georgia,serif;
+  --f-serif:"Cormorant Garamond",Georgia,serif;
+  --f-body:"Noto Sans","Segoe UI",system-ui,sans-serif;
+  --f-num:"League Spartan","Noto Sans",system-ui,sans-serif;
+  --f-deva:"Tiro Devanagari Sanskrit",serif;
+  /* default scene tokens (navy) */
+  --fg:#f4efe6; --fg-dim:#c5cbdc; --head:#f4efe6; --accent:#d4b46a; --line:rgba(255,255,255,.16); --card:rgba(255,255,255,.05);
+  color-scheme:dark;
+}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--navy);color:var(--ivory);font-family:var(--f-body);font-size:16px;line-height:1.55;overflow:hidden;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));}
+*{box-sizing:border-box}
+button{font-family:inherit;cursor:pointer}
+img{max-width:100%;display:block}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+.app{height:100%;display:flex;flex-direction:column;max-width:1440px;margin:0 auto;padding-top:12px}
+.stage{position:relative;flex:1;min-height:0;border-radius:22px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+
+/* Scene themes */
+.scene{position:absolute;inset:0;overflow-y:auto;padding:clamp(20px,4.5vh,52px) clamp(20px,4vw,60px);opacity:0;visibility:hidden;transition:opacity .9s ease,visibility 0s linear .9s;color:var(--fg);background:var(--bg)}
+.scene.on{opacity:1;visibility:visible;transition:opacity .9s ease}
+.t-navy{--bg:var(--navy);--fg:#f4efe6;--fg-dim:#c5cbdc;--head:#f4efe6;--accent:#d4b46a;--line:rgba(255,255,255,.16);--card:rgba(255,255,255,.05)}
+.t-navy::before{content:"";position:absolute;inset:0;background:url(img/texture.webp) center/600px repeat;mix-blend-mode:soft-light;opacity:.35;pointer-events:none}
+.t-leaves::after{content:"";position:absolute;inset:0;background:url(img/leaves.webp) center/cover;opacity:.07;pointer-events:none}
+.t-cream{--bg:var(--cream);--fg:#3a3127;--fg-dim:#6a5c4b;--head:var(--brown);--accent:var(--gold-deep);--line:rgba(125,92,60,.22);--card:#fff}
+.t-pale{--bg:var(--pale);--fg:#13204a;--fg-dim:#3a4870;--head:#13204a;--accent:#7a5a1e;--line:rgba(19,32,74,.18);--card:rgba(255,255,255,.55)}
+.t-sky{--bg:linear-gradient(180deg,#2a95e0 0%,#45b3ec 38%,#7cc9f1 62%,#1b2c57 92%,var(--navy) 100%);--fg:#fff;--fg-dim:#eef7ff;--head:#fff;--accent:#f6e2a6;--line:rgba(255,255,255,.4);--card:rgba(255,255,255,.12)}
+.scene > section{position:relative;z-index:1}
+
+.b{opacity:0;transform:translateY(14px);transition:opacity .8s ease,transform .8s ease}
+.b.shown{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.scene,.b{transition:none!important;transform:none!important}}
+
+.eyebrow{font-family:var(--f-serif);font-size:.95rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;margin:0;line-height:1.1;color:var(--head)}
+h1{font-size:clamp(2.2rem,4.6vw,4rem)}
+h2{font-size:clamp(1.9rem,3.6vw,3rem)}
+h3{font-size:clamp(1.15rem,1.7vw,1.4rem)}
+p{margin:0}
+.lede{font-size:clamp(1rem,1.45vw,1.2rem);color:var(--fg-dim);max-width:36em}
+.ph{color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent);border-radius:4px;padding:0 .25em;font-style:normal}
+.smallcaps{font-family:var(--f-serif);font-weight:600;font-size:.85rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-dim)}
+.smallcaps b{color:var(--fg);font-weight:700}
+
+/* Gold scroll ornament (Pali's flourish) */
+.orn{display:inline-flex;align-items:center;gap:.7rem;font-family:var(--f-display);color:var(--fg)}
+.orn svg{width:64px;height:18px;flex:none;color:var(--accent)}
+.orn svg.r{transform:scaleX(-1)}
+.divider{display:flex;align-items:center;gap:.8rem;color:var(--accent)}
+.divider::before,.divider::after{content:"";height:1px;flex:1;background:var(--line)}
+
+/* Photo cards */
+.photo{position:relative;border-radius:18px;overflow:hidden;box-shadow:0 12px 30px rgba(10,18,40,.28);background:var(--navy-2)}
+.t-navy .photo{outline:1px solid rgba(212,180,106,.45);outline-offset:-1px}
+.photo img{width:100%;height:100%;object-fit:cover}
+.cap{margin-top:.6rem}
+
+/* Title (welcome) */
+.title-wrap{min-height:100%;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,4vw,64px);align-items:center}
+.title-wrap .stack{display:flex;flex-direction:column;gap:1rem;align-items:flex-start}
+.wordmark{width:min(380px,80%);height:auto;filter:drop-shadow(0 2px 10px rgba(0,40,90,.25))}
+.clouds{position:absolute;pointer-events:none;opacity:.85;z-index:0}
+.hero-card{aspect-ratio:4/5;max-height:70vh;justify-self:center;width:100%;max-width:440px;background:linear-gradient(180deg,#2f9fe5 0%,#7fcaf2 55%,#cfeafb 100%)}
+.hero-card img{object-position:center bottom}
+/* Welcome slide: building render with "backed by" logos underneath */
+.hero-col{justify-self:center;display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;max-width:440px}
+.hero-col .hero-card{width:min(100%,440px,calc((91vh - 372px)*.8),56vh);max-height:none;align-self:center}
+.backed{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
+.backed-lbl{font-family:var(--f-serif);font-size:.95rem;letter-spacing:.14em;text-transform:uppercase;color:#f4efe6}
+.backed img{width:min(100%,270px);height:auto;filter:drop-shadow(0 1px 4px rgba(0,0,0,.3))}
+.bms{display:flex;flex-wrap:wrap;align-items:flex-end;gap:.4rem 1rem;margin-top:.4rem}
+.bms .p{display:flex;flex-direction:column;align-items:center;gap:.35rem}
+.bms .pics{display:flex;gap:6px}
+.bms .pics img{width:52px;height:52px;border-radius:12px;object-fit:cover;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.bms .w{font-family:var(--f-display);font-size:1.7rem;line-height:1;color:var(--fg)}
+.bms .s{font-family:var(--f-deva);font-size:.95rem;color:var(--accent)}
+.bms .s i{font-family:var(--f-serif);font-style:italic;font-size:.95rem;margin-left:.3rem;color:var(--fg-dim)}
+.bms svg{width:42px;height:18px;color:var(--accent);margin-bottom:2.2rem}
+/* Welcome slide on laptops and TVs: larger "Opening 2027" and a Body · Mind · Soul row that spans the column */
+@media (min-width:821px){
+  .title-wrap{--open-fs:clamp(1.6rem,2.3vw,2.3rem)}
+  .title-wrap .stack{gap:.55rem}
+  .title-wrap .open27 svg{width:clamp(70px,6vw,96px);height:24px}
+  .title-wrap .bms{align-self:stretch;justify-content:space-between;flex-wrap:nowrap;gap:.6rem}
+  .title-wrap .bms .pics{gap:8px}
+  .title-wrap .bms .pics img{width:clamp(56px,7.4vh,84px);height:clamp(56px,7.4vh,84px);border-radius:14px}
+  .title-wrap .bms .w{font-size:clamp(1.8rem,3.3vh,2.4rem)}
+  .title-wrap .bms .s,.title-wrap .bms .s i{font-size:1.05rem}
+  .title-wrap .bms svg{width:clamp(42px,4vw,64px);flex:1 1 auto;max-width:80px}
+}
+.presenter{font-size:.85rem;color:var(--fg-dim)}
+
+/* Timeline (roots) */
+.tl{display:flex;flex-direction:column;gap:clamp(18px,3.4vh,36px);min-height:100%;justify-content:center}
+.tl-track{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;padding-top:30px;border-top:1px solid var(--line)}
+.tl-item{position:relative;display:flex;flex-direction:column;gap:.4rem}
+.tl-item::before{content:"";position:absolute;top:-38px;left:0;width:14px;height:14px;transform:rotate(45deg);background:var(--navy);border:2px solid var(--accent)}
+.tl-item .when{font-family:var(--f-num);font-weight:700;font-size:1.3rem;letter-spacing:.04em;color:var(--fg)}
+.tl-item h3{font-family:var(--f-serif);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:.95rem;color:var(--accent)}
+.tl-item p{color:var(--fg-dim);font-size:.98rem}
+.stats{display:flex;flex-wrap:wrap;gap:16px}
+.stat{display:flex;align-items:baseline;gap:.8rem;padding:1rem 1.4rem;border-radius:18px;background:var(--card);border:1px solid var(--line)}
+.stat .n{font-family:var(--f-serif);font-weight:700;font-size:clamp(1.8rem,3vw,2.6rem);line-height:1;color:var(--gold)}
+.stat .l{font-family:var(--f-serif);font-size:1.1rem;color:var(--fg)}
+.stat .l small{display:block;font-size:.9rem;color:var(--fg-dim)}
+
+/* Building */
+.bld{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,4vw,56px);align-items:center;min-height:100%}
+.bld > div:first-child{display:flex;flex-direction:column;align-items:center}
+.facts{display:flex;flex-direction:column;gap:.9rem}
+.fact{display:grid;grid-template-columns:5rem minmax(0,1fr);gap:1rem;align-items:baseline;padding-bottom:.9rem;border-bottom:1px solid var(--line)}
+.fact .k{font-family:var(--f-num);font-weight:700;font-size:1.35rem;color:var(--accent);font-variant-numeric:tabular-nums}
+.fact p{color:var(--fg-dim)}
+
+/* Phase */
+.phase{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,4vw,56px);align-items:center;min-height:100%}
+.phase .l,.phase .r{display:flex;flex-direction:column;gap:.8rem;min-width:0}
+.bignum{font-family:var(--f-display);font-size:clamp(3.2rem,7.5vw,5.8rem);line-height:.9;color:var(--head)}
+.ptl{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:.4rem}
+.ptl .y{display:flex;flex-direction:column;gap:.35rem}
+.ptl img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;box-shadow:0 6px 16px rgba(19,32,74,.18)}
+.ptl .yr{font-family:var(--f-num);font-weight:700;font-size:1.05rem;color:var(--fg)}
+.ptl .lb{font-family:var(--f-serif);font-weight:600;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-dim);line-height:1.25}
+.ptl .open{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;aspect-ratio:1;border-radius:12px;background:var(--navy);color:var(--gold);font-family:var(--f-display);font-size:1.05rem;line-height:1.15}
+.phase .back{aspect-ratio:16/10;max-height:27vh}
+.phase-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.ph-card{padding:.9rem 1rem;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+.ph-card.now{border-color:var(--accent)}
+.ph-card .tag{font-family:var(--f-serif);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--fg-dim)}
+.ph-card.now .tag{color:var(--accent)}
+.ph-card h3{margin:.25rem 0 .2rem;font-size:1.15rem}
+.ph-card p{color:var(--fg-dim);font-size:.9rem}
+.ba{display:flex;align-items:center;gap:6px;margin-top:.5rem}
+.ba img{width:46%;aspect-ratio:4/3;object-fit:cover;border-radius:8px}
+.ba svg{width:20px;flex:none;color:var(--accent)}
+
+/* Rooms */
+.room{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4.5vw,68px);align-items:center;min-height:100%}
+.media{position:relative;padding-bottom:28px}
+.media .main{aspect-ratio:var(--ar,4/3);max-height:60vh}
+.media .inset{position:absolute;right:-10px;bottom:0;width:40%;aspect-ratio:4/3;border-radius:14px;border:5px solid var(--bg-solid,#fbf8f2)}
+.t-navy .media .inset{--bg-solid:var(--navy)}
+.media .caps{margin-top:.7rem;padding-right:44%}
+.inlab{position:absolute;left:8px;bottom:8px;right:8px;font-family:var(--f-serif);font-weight:700;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.7);line-height:1.2}
+.room .copy{display:flex;flex-direction:column;gap:1rem;min-width:0}
+.feat{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.8rem}
+.feat li{display:grid;grid-template-columns:1.4rem minmax(0,1fr);gap:.5rem;color:var(--fg-dim)}
+.feat li::before{content:"";width:9px;height:9px;margin-top:.5em;transform:rotate(45deg);border:1.5px solid var(--accent)}
+.feat b{color:var(--fg);font-weight:700}
+/* Room pages: looping CGI video on top, the photos smaller underneath */
+.media.has-vid{padding-bottom:0;display:flex;flex-direction:column;gap:14px}
+.media .vid{width:min(100%,calc(50vh*16/9));aspect-ratio:16/9}
+.media .vid video{display:block;width:100%;height:100%;object-fit:cover}
+.thumbs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:min(100%,calc(50vh*16/9))}
+.thumbs.three{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.thumbs figure{margin:0;min-width:0}
+.thumbs .photo{aspect-ratio:16/10;max-height:19vh;width:100%;border-radius:12px}
+.thumbs figcaption{margin-top:.45rem;font-size:.78rem}
+/* Room pictures that grow on hover and open larger when clicked or tapped */
+.zoomable .media .photo{cursor:zoom-in;transition:transform .25s ease,box-shadow .25s ease}
+@media (hover:hover){
+  .zoomable .media .vid:hover{transform:scale(1.03);box-shadow:0 18px 40px rgba(10,18,40,.35);z-index:2}
+  .zoomable .thumbs .photo:hover{transform:scale(1.06);box-shadow:0 14px 30px rgba(10,18,40,.35);z-index:2}
+}
+.zoomable .media .photo:focus-visible{transform:scale(1.03)}
+@media (prefers-reduced-motion:reduce){.zoomable .media .photo{transition:none}}
+.overlay.zoom{z-index:25;background:transparent;padding:0}
+.zoom-bg{position:absolute;inset:0;background:rgba(6,12,28,.9)}
+.zoom-el{position:fixed;display:block;object-fit:cover;box-shadow:0 20px 60px rgba(0,0,0,.5);background:#0f1833;margin:0;max-width:none}
+.zoom-cap{position:fixed;left:0;right:0;margin:0;color:#f4efe6;font-family:var(--f-serif);font-size:1.15rem;letter-spacing:.06em;text-align:center;padding:0 16px}
+.zoom-x{position:absolute;top:max(14px,env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35);font-size:1.7rem;line-height:1;display:grid;place-items:center}
+.zoom-x:hover{background:rgba(255,255,255,.22)}
+/* Support badge: top-right corner of every page */
+.support{position:absolute;top:12px;right:12px;z-index:6;display:flex;align-items:center;gap:10px;padding:7px 7px 7px 14px;background:rgba(251,248,242,.94);color:var(--navy);border:1px solid rgba(140,106,42,.35);border-radius:14px;box-shadow:0 6px 18px rgba(10,18,40,.18)}
+.support .lbl{font-family:var(--f-display);font-size:1.05rem;line-height:1.1;white-space:nowrap}
+.support .qr{width:64px;height:64px;border-radius:8px;background:#fff;border:1.5px dashed rgba(15,24,51,.35);display:grid;place-items:center;font-size:.7rem;font-weight:700;letter-spacing:.08em;color:rgba(15,24,51,.45);overflow:hidden}
+.support .qr img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated}
+.support .qr:has(img){border:0;padding:2px}
+.support{top:12px;right:12px;gap:14px;padding:9px 9px 9px 18px;text-decoration:none;cursor:pointer;transform-origin:top right;transition:transform .18s ease,box-shadow .18s ease;-webkit-tap-highlight-color:transparent}
+.support:hover,.support:focus-visible{transform:scale(1.06);box-shadow:0 10px 26px rgba(10,18,40,.28)}
+.support:active{transform:scale(1.02)}
+@media (prefers-reduced-motion:reduce){.support{transition:none}}
+.support .lbl{font-size:1.45rem}
+.support .qr{width:84px;height:84px;font-size:.8rem}
+/* keep a clear strip at the top of each page so the badge never covers content */
+.scene{padding-top:calc(clamp(20px,4.5vh,52px) + 78px)}
+@media (max-width:760px){.support{top:8px;right:8px;padding:5px 5px 5px 10px}.support .qr{width:60px;height:60px}.support .lbl{font-size:1.1rem}.scene{padding-top:88px}}
+.materials{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.mat{display:flex;flex-direction:column;align-items:center;gap:.3rem;width:62px}
+.mat img{width:52px;height:auto;filter:drop-shadow(0 4px 8px rgba(0,0,0,.15))}
+.mat span{font-family:var(--f-serif);font-weight:600;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-dim);text-align:center;line-height:1.2}
+.bird{position:absolute;right:-6px;top:-30px;width:110px;pointer-events:none;opacity:.95}
+.cost-btn{align-self:flex-start;display:inline-flex;align-items:center;gap:.6rem;background:transparent;color:var(--accent);border:1.5px solid var(--accent);border-radius:999px;padding:.7rem 1.3rem;font-size:1rem;font-weight:700}
+.cost-btn:hover{background:var(--accent);color:var(--bg-solid,#fff)}
+.t-navy .cost-btn:hover{color:var(--navy)}
+
+/* Tiers (partner) — Pali's "legacy" page */
+.tiers-wrap{padding-inline:clamp(0px,5vw,72px);display:flex;flex-direction:column;gap:clamp(14px,2.6vh,24px);justify-content:center;min-height:100%;align-items:center;text-align:center}
+.tiers-wrap .head h2{font-family:var(--f-serif);font-weight:500;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(2rem,4vw,3.2rem);color:var(--brown)}
+.tiers-wrap .head .eyebrow{font-weight:500;font-size:1.05rem;letter-spacing:.12em}
+.flo{position:absolute;bottom:-34px;width:clamp(70px,8vw,112px);pointer-events:none;z-index:0;opacity:.9}
+.flo.l{left:-6px}
+.flo.r{right:-6px;transform:scaleX(-1)}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;width:100%;max-width:1100px;text-align:left}
+.tier{border-radius:18px;padding:1.3rem 1.4rem;background:#fff;border:1px solid var(--line);border-top:4px solid var(--c);display:flex;flex-direction:column;gap:.55rem;box-shadow:0 8px 24px rgba(125,92,60,.08)}
+.tier .name{font-family:var(--f-serif);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:1.5rem;color:var(--c)}
+.tier .from{font-family:var(--f-serif);font-size:1.05rem;color:var(--fg-dim)}
+.tier ul{margin:0;padding-left:1.1rem;color:var(--fg-dim);display:flex;flex-direction:column;gap:.35rem}
+.tier{display:grid!important;grid-template-columns:auto 1fr;align-items:baseline;align-content:start;column-gap:1rem}
+.tier .tpic,.tier .what{grid-column:1/-1}
+.tier .from{justify-self:end}
+.tier .tpic{margin:-.4rem -.5rem .2rem;border-radius:12px;overflow:hidden;aspect-ratio:16/9;max-height:17vh}
+.tier .tpic img{width:100%;height:100%;object-fit:cover}
+.tier .what{color:var(--fg);font-size:1.05rem;line-height:1.4}
+.tier .what b{color:var(--brown)}
+.tier .plus{font-size:.85rem;color:var(--fg-dim);font-style:italic}
+.extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;width:100%;max-width:1100px;text-align:left}
+.extra{position:relative;z-index:1;background:var(--cream);padding:.9rem 1.2rem;border:1px dashed var(--line);border-radius:14px;color:var(--fg-dim)}
+.extra b{color:var(--brown);display:block;font-family:var(--f-display);font-weight:400;font-size:1.2rem;margin-bottom:.1rem}
+.tax{font-size:.85rem;color:var(--fg-dim);max-width:60em}
+
+/* Close */
+.close{min-height:100%;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(24px,4vw,56px);align-items:center}
+.close .l{display:flex;flex-direction:column;gap:1.1rem;align-items:flex-start}
+.thanks{font-family:var(--f-serif);font-weight:500;letter-spacing:.12em;font-size:clamp(1.3rem,2.2vw,1.9rem);color:var(--gold)}
+.share-ask{margin:0;max-width:34em;font-family:var(--f-serif);font-style:italic;font-size:clamp(1.15rem,1.6vw,1.4rem);line-height:1.4;color:var(--fg)}
+.contact{display:flex;flex-wrap:wrap;gap:1.2rem 2.4rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--fg-dim)}
+.contact a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line)}
+.contact a:hover{color:var(--fg)}
+.contact b{display:block;font-family:var(--f-serif);font-weight:600;color:var(--accent);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase}
+.funders{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;background:#fff;border-radius:16px;padding:.7rem 1.2rem}
+.funders span{font-family:var(--f-serif);font-weight:600;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:#3a3127}
+.funders img{height:52px;width:auto}
+.close .person{display:flex;flex-direction:column;align-items:center;gap:.6rem;text-align:center}
+.close .person .photo{width:min(300px,100%);aspect-ratio:3/4;background:linear-gradient(180deg,#e9e1cf,#cfc3a6)}
+.close .person .photo img{object-fit:contain;object-position:bottom}
+.close .person .nm{font-family:var(--f-display);font-size:1.5rem;color:var(--fg)}
+.close-bg{position:absolute;inset:0;background:url(img/hero.webp) right center/cover;opacity:.18;z-index:0;pointer-events:none;mask-image:linear-gradient(90deg,transparent 20%,#000 75%)}
+
+/* Caption + controls */
+.caption{min-height:3.2em;display:flex;align-items:center;justify-content:center;text-align:center;padding:.4rem 1rem;font-family:var(--f-serif);font-size:clamp(1.1rem,1.7vw,1.35rem);color:var(--ivory);font-style:italic}
+.caption span{max-width:52em}
+@media (min-width:821px){.caption{font-size:clamp(1.02rem,1.5vw,1.22rem);line-height:1.45;padding:.25rem 1rem;min-height:calc(2 * 1.45 * clamp(1.02rem,1.5vw,1.22rem) + .5rem)}} /* room for two lines, so the slide never shifts as captions change */
+.progress{display:flex;gap:4px;padding-block:4px}
+.progress button{flex:1;height:22px;background:transparent;border:0;padding:9px 0;position:relative}
+.progress button i{position:absolute;left:0;right:0;top:9px;height:3px;border-radius:2px;background:var(--navy-3);overflow:hidden}
+.progress button i::after{content:"";position:absolute;inset:0;width:var(--p,0%);background:var(--gold);transition:width .4s ease}
+.controls{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:8px calc(10px + env(safe-area-inset-bottom,0px))}
+.ctl-main{display:flex;gap:10px;align-items:center}
+.ctl-side{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--navy-2);color:var(--ivory);border:1px solid rgba(212,180,106,.35);border-radius:999px;padding:.75rem 1.15rem;font-size:1rem;font-weight:700;min-height:48px}
+.btn:hover{border-color:var(--gold)}
+.btn.play{background:var(--gold);color:var(--navy);border-color:var(--gold);min-width:9.5rem;justify-content:center;font-size:1.1rem}
+.btn.small{padding:.55rem .9rem;font-size:.9rem;font-weight:500;min-height:42px}
+.btn svg{width:18px;height:18px;flex:none}
+.where{font-size:.9rem;color:#9aa6c4;min-width:0;font-family:var(--f-serif);font-size:1rem}
+.where b{color:var(--ivory);font-weight:600}
+
+/* Overlays (cream panels with dotted price leaders, as in Pali's price list) */
+.overlay{position:fixed;inset:0;z-index:20;background:rgba(6,12,28,.8);display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.panel{--fg:#3a3127;--fg-dim:#6a5c4b;--head:var(--brown);--accent:var(--gold-deep);--line:rgba(125,92,60,.25);color:var(--fg);background:var(--cream);border-radius:20px;width:min(760px,100%);max-height:100%;overflow:auto;padding:clamp(18px,3vw,34px);display:flex;flex-direction:column;gap:1rem;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.panel h2{font-family:var(--f-serif);font-weight:500;letter-spacing:.04em}
+.panel .btn{background:#fff;color:var(--fg);border-color:var(--line)}
+.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-family:var(--f-serif);font-size:1.1rem}
+th,td{text-align:left;padding:.45rem .3rem;border-bottom:1px dotted var(--line)}
+thead th{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-dim);font-weight:700;border-bottom:1px solid var(--line)}
+td.n,th.n{text-align:right;white-space:nowrap;font-weight:600;color:var(--brown)}
+tfoot td{font-weight:700;color:var(--gold-deep);border-bottom:0;font-size:1.25rem;padding-top:.8rem}
+tr.sec th{padding-top:1.1rem;color:var(--brown);font-family:var(--f-serif);font-weight:600;font-size:.9rem;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+tr.sub td{color:var(--fg);font-weight:700;border-bottom:1px solid var(--line)}
+.note{font-size:.9rem;color:var(--fg-dim)}
+.chapters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.chapters button{text-align:left;background:#fff;border:1px solid var(--line);color:var(--fg);border-radius:12px;padding:.9rem 1rem;font-size:1.05rem;font-family:var(--f-serif);font-weight:600}
+.chapters button:hover,.chapters button.cur{border-color:var(--gold-deep)}
+.chapters button small{display:block;color:var(--fg-dim);font-size:.8rem;font-family:var(--f-body);font-weight:400}
+.script-scene{display:flex;flex-direction:column;gap:.5rem;padding-bottom:1rem;border-bottom:1px solid var(--line)}
+.script-scene h3{color:var(--brown);font-family:var(--f-serif);font-weight:600;font-size:1.2rem}
+.script-scene p{color:var(--fg)}
+
+/* Start screen — Pali's cover */
+.start{position:fixed;inset:0;z-index:30;overflow:auto;background:linear-gradient(180deg,#2a95e0 0%,#45b3ec 42%,#86ccf1 64%,#1b2c57 90%,var(--navy) 100%);display:flex;flex-direction:column;align-items:center;padding:max(28px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 28px max(16px,env(safe-area-inset-left,0px));color:#fff}
+.start .clouds{opacity:.9}
+.start-in{position:relative;z-index:2;max-width:760px;display:flex;flex-direction:column;gap:.8rem;align-items:center;text-align:center}
+.start .wordmark{width:min(420px,80vw)}
+.start .orn{font-size:clamp(1.3rem,2.6vw,2rem);color:#fff}
+.start .orn svg{color:#fff}
+.start .lede{color:#f2f9ff;font-size:clamp(1rem,1.5vw,1.2rem)}
+.start-btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:.4rem}
+.start .btn{font-size:1.15rem;padding:1rem 1.6rem}
+.start .btn:not(.play){background:var(--navy);border-color:var(--navy)}
+.start .hint{font-size:.9rem;color:#e8f4ff}
+.start-hero{position:relative;z-index:1;width:min(640px,100%);margin-top:clamp(4px,2vh,20px);flex:none;-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent 100%);mask-image:linear-gradient(180deg,#000 70%,transparent 100%)}
+.start-hero img{width:100%;height:auto}
+
+@media (max-width:820px){
+  body{overflow:auto}
+  .app{height:auto;min-height:100%}
+  .stage{min-height:78vh}
+  .title-wrap,.bld,.room,.phase,.close{grid-template-columns:minmax(0,1fr)}
+  .hero-card{max-width:300px;max-height:none}
+  .media .main{max-height:none}
+  .tl-track{grid-template-columns:minmax(0,1fr);padding-top:0;padding-left:30px;border-top:0;border-left:1px solid var(--line)}
+  .tl-item::before{top:6px;left:-38px}
+  .tiers,.extras,.phase-row,.chapters{grid-template-columns:minmax(0,1fr)}
+  .ptl{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .where{display:none}
+  .btn .lbl-long{display:none}
+  .bird,.flo{display:none}
+  .bms svg{display:none}
+  /* Welcome slide on phones: centred logo and "Opening 2027", Body · Mind · Soul on one row */
+  .title-wrap .wordmark,.title-wrap .open27{align-self:center;margin-left:0!important;margin-right:0}
+  .title-wrap .bms{align-self:stretch;flex-wrap:nowrap;justify-content:space-between;gap:6px}
+  .title-wrap .bms .p{flex:1 1 0;min-width:0}
+  .title-wrap .bms .pics{gap:4px}
+  .title-wrap .bms .pics img{width:min(42px,11vw);height:min(42px,11vw);border-radius:10px}
+  .title-wrap .bms .w{font-size:1.45rem}
+  .title-wrap .bms .s,.title-wrap .bms .s i{font-size:.85rem;white-space:nowrap}
+}
+
+/* Laptops and TVs: no subtitle bar, larger text that fills the slide */
+.caption{display:none!important}
+@media (min-width:821px){
+  html{font-size:clamp(14.5px,min(1.22vw,2vh),24px)}
+  body{font-size:1rem}
+  .app{max-width:1800px}
+  .eyebrow{font-size:1.05rem}
+  .lede{font-size:1.2rem;max-width:34em;line-height:1.5}
+  .smallcaps{font-size:.9rem}
+  .presenter{font-size:1rem}
+  .feat{gap:1rem}
+  .feat li{font-size:1.14rem;line-height:1.5}
+  .feat li::before{width:11px;height:11px}
+  .room .copy{gap:1.2rem}
+  .thumbs figcaption{font-size:.88rem}
+  .tl-item .when{font-size:1.75rem}
+  .tl-item h3{font-size:1.4rem}
+  .tl-item p{font-size:1.2rem}
+  .tl-track{gap:30px}
+  .stat .l{font-size:1.4rem}
+  .stat .l small{font-size:1.1rem}
+  .stat .n{font-size:clamp(2rem,3.4vw,3.2rem)}
+  .fact .k{font-size:1.6rem}
+  .fact{grid-template-columns:6rem minmax(0,1fr)}
+  .fact p{font-size:1.14rem}
+  .mat{width:auto;max-width:7.5rem}.mat img{width:3.4rem}.mat span{font-size:.7rem}
+  .bird{top:-4px}
+  .cost-btn{font-size:1.1rem}
+  .tiers-wrap .head .eyebrow{font-size:1.2rem}
+  .tier .from{font-size:1.25rem}
+  .tier p,.tier ul{font-size:1.12rem}
+  .tier .what{font-size:1.2rem}
+  .extra{font-size:1.1rem}
+  .extra b{font-size:1.4rem}
+  .tax{font-size:1rem}
+  .share-ask{font-size:clamp(1.3rem,1.9vw,1.75rem)}
+  .contact{font-size:1.1rem}
+  .contact b{font-size:.9rem}
+  .funders span{font-size:.9rem}
+  .close .person .nm{font-size:1.8rem}
+  .inlab{font-size:.75rem}
+  .where{font-size:1.05rem}
+  .title-wrap .lede{font-size:1.08rem}
+  .close .l{gap:.75rem}
+  .facts{gap:.7rem}.fact{padding-bottom:.7rem}
+  .feat{gap:.85rem}
+}
+
+/* Phase page: £5m and the extension on top, one full-width timeline with phase bubbles above */
+.phase2{display:flex;flex-direction:column;gap:clamp(14px,3vh,34px);min-height:100%;justify-content:center}
+.ph-top{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,4vw,64px);align-items:center}
+.ph-top .l{display:flex;flex-direction:column;gap:.9rem;align-items:flex-start;min-width:0}
+.ph-top .r{min-width:0;justify-self:end;width:min(100%,calc(27vh*16/9))}
+.ph-top .back{aspect-ratio:16/9;width:100%}
+.ptl2{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));row-gap:26px}
+.pbub{grid-row:1;position:relative;margin:0 10px;padding:.7rem 1.1rem;border-radius:16px;border:1px solid var(--line);background:var(--card);text-align:center}
+.pbub.one{grid-column:1/5}
+.pbub.two{grid-column:5/7;border:2px solid var(--accent);background:#fff}
+.pbub .tag{font-family:var(--f-serif);font-size:.85rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--fg-dim)}
+.pbub.two .tag{color:var(--accent)}
+.pbub h3{margin:.15rem 0 .1rem}
+.pbub p{color:var(--fg-dim);font-size:.95rem}
+.pbub::after{content:"";position:absolute;top:calc(100% + 6px);height:14px;border:2px solid var(--line);border-bottom:0;border-radius:8px 8px 0 0}
+.pbub.one::after{left:calc(12.5% - 10px);right:calc(12.5% - 10px)}
+.pbub.two::after{left:calc(25% - 10px);right:calc(25% - 10px);border-color:var(--accent)}
+.pit{grid-row:2;position:relative;padding:30px 10px 0;display:flex;flex-direction:column;gap:.3rem;align-items:center;text-align:center;min-width:0}
+.pit:nth-child(3){grid-column:1}.pit:nth-child(4){grid-column:2}.pit:nth-child(5){grid-column:3}.pit:nth-child(6){grid-column:4}.pit:nth-child(7){grid-column:5}.pit:nth-child(8){grid-column:6}
+.pit::before{content:"";position:absolute;top:10px;left:0;right:0;height:3px;background:var(--accent)}
+.pit.first::before{left:50%}.pit.last::before{right:50%}
+.pit.future::before{background:repeating-linear-gradient(90deg,var(--accent) 0 9px,transparent 9px 16px)}
+.pit::after{content:"";position:absolute;top:4px;left:calc(50% - 8px);width:15px;height:15px;transform:rotate(45deg);background:var(--pale);border:2px solid var(--accent)}
+.pit:not(.future):not(.now)::after{background:var(--accent)}
+.pit.now::after{top:1px;left:calc(50% - 11px);width:21px;height:21px;background:#fff;border-width:3px;box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 22%,transparent)}
+.pit img,.pit .open{width:100%;aspect-ratio:4/3;max-height:15vh;object-fit:cover;border-radius:12px;box-shadow:0 6px 16px rgba(19,32,74,.18)}
+.pit .ba{width:100%;margin:0;gap:4px;justify-content:center}
+.pit .ba img{width:44%;box-shadow:none}
+.pit .open{display:flex;flex-direction:column;justify-content:center;align-items:center;background:var(--navy);color:var(--gold);font-family:var(--f-display);font-size:1.25rem;line-height:1.15}
+.pit .yr{font-family:var(--f-num);font-weight:700;font-size:1.4rem;color:var(--fg);margin-top:.2rem}
+.pit.now .yr{color:var(--accent)}
+.pit .lb{font-family:var(--f-serif);font-weight:600;font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-dim);line-height:1.25}
+@media (max-width:820px){
+  .ph-top{grid-template-columns:minmax(0,1fr)}
+  .ph-top .r{justify-self:stretch;width:100%}
+  .ptl2{display:flex;flex-direction:column;row-gap:0}
+  .pbub{margin:10px 0;text-align:left}
+  .pbub::after{display:none}
+  .pbub.one{order:0}.pit{order:1}.pbub.two{order:5}.pit.now,.pit.future{order:6}
+  .pit{display:grid;grid-template-columns:110px minmax(0,1fr);grid-template-rows:auto auto;column-gap:14px;row-gap:0;align-items:center;text-align:left;padding:8px 0 8px 30px}
+  .pit > img,.pit > .open,.pit > .ba{grid-row:1/3}
+  .pit .yr{align-self:end;margin:0}.pit .lb{align-self:start}
+  .pit::before,.pit.first::before,.pit.last::before{top:0;bottom:0;left:9px;right:auto;width:3px;height:auto}
+  .pit.future::before{background:repeating-linear-gradient(180deg,var(--accent) 0 9px,transparent 9px 16px)}
+  .pit::after{top:calc(50% - 8px);left:3px}
+  .pit.now::after{top:calc(50% - 11px);left:0}
+  .pit img,.pit .open{max-height:none}
+  .pit .open{font-size:1rem}
+  .pit .ba{gap:3px}.pit .ba img{width:46%;height:auto;aspect-ratio:3/4}.pit .ba svg{width:12px}
+}
+@media (min-width:821px){
+  .pbub p{font-size:1.05rem}
+  .pbub .tag{font-size:.9rem}
+  .pit .lb{font-size:.95rem}
+}
+
+@media (min-width:821px){
+  .phase2 .fivem{display:flex;align-items:center;gap:1.4rem}
+  .phase2 .fivem .bignum{font-size:min(7.5vw,10.5vh);white-space:nowrap}
+  .phase2 .fivem .lede{max-width:24em}
+  .ph-top{grid-template-columns:minmax(0,1fr) auto}
+  .ph-top .r{width:calc(23vh*16/9)}
+  .pit .ba img{width:47%;aspect-ratio:auto;height:12.5vh}
+  .pit .yr{font-size:1.45rem}
+  .phase2 h2{font-size:min(3.4vw,5.6vh)}
+  .pbub{padding:.55rem 1rem}
+  .pit img,.pit .open{max-height:12.5vh}
+  .tiers,.extras{max-width:1500px}
+  .tier .tpic{aspect-ratio:auto;max-height:none;height:13vh}
+  #scene-phase,#scene-partner{padding-top:calc(clamp(20px,4.5vh,52px) + 24px)}
+  .ph-top .r{align-self:end;margin-top:66px}
+  .pbub p.dk{display:none}
+  .tiers-wrap{gap:clamp(12px,2.2vh,22px)}
+  .tiers-wrap .divider{display:none}
+}
+</style>
+
+<div class="app">
+  <main class="stage" id="stage" aria-live="off">
+    <!-- Support badge: permanent QR code for https://tykrishna.cymru/support -->
+    <a class="support" href="https://tykrishna.cymru/support" target="_blank" rel="noopener" aria-label="Support now: open tykrishna.cymru/support"><span class="lbl">Support now</span><span class="qr"><img src="img/qr-support.png" alt=""></span></a>
+  </main>
+  <div class="caption" id="caption" aria-live="polite"><span></span></div>
+  <nav class="progress" id="progress" aria-label="Chapters"></nav>
+  <div class="controls">
+    <div class="ctl-main">
+      <button class="btn" id="prev" aria-label="Previous chapter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 5l-7 7 7 7"/></svg>Back</button>
+      <button class="btn play" id="play"><span id="playIcon"></span><span id="playLbl">Play</span></button>
+      <button class="btn" id="next" aria-label="Next chapter">Next<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="where" id="where"></div>
+    <div class="ctl-side">
+      <button class="btn small" id="soundBtn" aria-pressed="true">Voice on</button>
+      
+      <button class="btn small" id="fsBtn"><span class="lbl-long">Full screen</span><span aria-hidden="true">⛶</span></button>
+    </div>
+  </div>
+</div>
+
+<div class="start" id="start">
+  <img class="clouds" src="img/clouds1.webp" alt="" style="left:-6%;top:2%;width:46%">
+  <img class="clouds" src="img/clouds2.webp" alt="" style="right:-8%;top:24%;width:44%">
+  <div class="start-in">
+    <img class="wordmark" src="img/wordmark.webp" alt="Tŷ Krishna Cymru">
+    <span class="orn" id="startOrn"></span>
+    <p class="lede">A guided tour of the building, the story behind it, and how your company can be part of what comes next. About four minutes.</p>
+    <div class="start-btns">
+      <button class="btn play" id="startTour">▶&nbsp; Start the tour</button>
+      <button class="btn" id="startBrowse">Look around at my own pace</button>
+    </div>
+    <p class="hint">You can pause at any time. Use Back and Next to move between chapters.</p>
+  </div>
+  <div class="start-hero"><img src="img/hero-wide.webp" alt="Architect's render of Tŷ Krishna Cymru's glass extension and rooftop garden"></div>
+</div>
+
+<div class="overlay zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Enlarged view">
+  <div class="zoom-bg" id="zoomBg"></div>
+  <div class="zoom-media" id="zoomMedia"></div>
+  <p class="zoom-cap" id="zoomCap"></p>
+  <button class="zoom-x" id="zoomX" aria-label="Close enlarged view">×</button>
+</div>
+
+<div class="overlay" id="costs" hidden role="dialog" aria-modal="true" aria-labelledby="costTitle">
+  <div class="panel">
+    <div class="panel-head">
+      <div><span class="eyebrow">Phase two costs</span><h2 id="costTitle" style="font-size:2rem;margin-top:.3rem"></h2></div>
+      <button class="btn small" data-close>Close</button>
+    </div>
+    <div id="costBody"></div>
+  </div>
+</div>
+
+<div class="overlay" id="chapters" hidden role="dialog" aria-modal="true" aria-label="Chapters">
+  <div class="panel">
+    <div class="panel-head"><h2 style="font-size:2rem">Chapters</h2><button class="btn small" data-close>Close</button></div>
+    <div class="chapters" id="chapList"></div>
+  </div>
+</div>
+
+<div class="overlay" id="script" hidden role="dialog" aria-modal="true" aria-label="Voiceover script">
+  <div class="panel">
+    <div class="panel-head">
+      <div><span class="eyebrow">For recording</span><h2 style="font-size:2rem;margin-top:.3rem">Voiceover script</h2></div>
+      <div style="display:flex;gap:8px"><button class="btn small" id="copyScript">Copy</button><button class="btn small" data-close>Close</button></div>
+    </div>
+    <p class="note" id="scriptMeta"></p>
+    <div id="scriptBody" style="display:flex;flex-direction:column;gap:1rem"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CONTENT — edit here.
+   Each scene has "beats": one line of narration each. When a beat
+   is spoken, the matching on-screen element (data-b="n") appears.
+   Text in [square brackets] is a placeholder to fill in.
+   ============================================================ */
+
+
+/* Jack's costings (from "Ty krishna costing for Rishi", 23 Oct 2026), grouped by chapter.
+   Each amount is the sheet's selected total for that line; null = not yet quoted. */
+const COSTS = {
+ "arrival": [
+  {
+   "title": "Reception",
+   "rows": [
+    [
+     "Antico marble floor",
+     4000
+    ],
+    [
+     "Two pillars and arch with decoration",
+     9000
+    ],
+    [
+     "Decorative details",
+     3000
+    ],
+    [
+     "2 ceiling speakers",
+     2200
+    ],
+    [
+     "Faux marble paint finish",
+     5700
+    ],
+    [
+     "Venetian plaster in alcove",
+     600
+    ],
+    [
+     "3 bespoke radiator covers",
+     7500
+    ],
+    [
+     "Hallway radiator",
+     2500
+    ],
+    [
+     "Two copper water walls",
+     20000
+    ],
+    [
+     "Archway behind the counter",
+     9000
+    ],
+    [
+     "Screen",
+     3500
+    ],
+    [
+     "Chandelier",
+     7500
+    ],
+    [
+     "Extra lighting",
+     4000
+    ],
+    [
+     "Computer and desk equipment",
+     3500
+    ],
+    [
+     "Rounded quartz counter",
+     3000
+    ],
+    [
+     "Lift renovation",
+     3000
+    ],
+    [
+     "Decoration around the lift",
+     8000
+    ],
+    [
+     "Marble paint finish",
+     5000
+    ],
+    [
+     "Hallway arch",
+     4500
+    ],
+    [
+     "Extra decoration",
+     2000
+    ],
+    [
+     "Hallway lighting",
+     2000
+    ],
+    [
+     "Stair repairs",
+     1000
+    ],
+    [
+     "Counter",
+     2500
+    ]
+   ]
+  },
+  {
+   "title": "Exhibition",
+   "rows": [
+    [
+     "3 screens",
+     3500
+    ],
+    [
+     "3 plinths for the screens",
+     4500
+    ],
+    [
+     "6 surround-sound ceiling speakers",
+     6100
+    ],
+    [
+     "Antico marble flooring",
+     9000
+    ],
+    [
+     "Venetian plaster in 4 alcoves",
+     2400
+    ],
+    [
+     "LED wall",
+     null
+    ],
+    [
+     "Two pillars with decoration",
+     4500
+    ],
+    [
+     "Archway with decoration",
+     5000
+    ],
+    [
+     "Decorative details",
+     3000
+    ],
+    [
+     "VR headsets and booth",
+     2000
+    ],
+    [
+     "Faux marble paint finish",
+     15000
+    ],
+    [
+     "4 bespoke radiator covers",
+     10000
+    ],
+    [
+     "Lighting",
+     8000
+    ]
+   ]
+  }
+ ],
+ "temple": [
+  {
+   "title": "Sanctuary",
+   "rows": [
+    [
+     "Sanctuary entrance",
+     10000
+    ],
+    [
+     "Cristallo white quartzite, polished and installed",
+     37000
+    ],
+    [
+     "Green onyx on the altar",
+     5500
+    ],
+    [
+     "Gold trims and edging",
+     25500
+    ],
+    [
+     "Gemstone and mother-of-pearl inlay",
+     70000
+    ],
+    [
+     "Two altar doors",
+     18000
+    ],
+    [
+     "10 pillars",
+     112000
+    ],
+    [
+     "Chandelier",
+     19000
+    ],
+    [
+     "Rail and posts",
+     18000
+    ],
+    [
+     "Silk curtains",
+     12000
+    ],
+    [
+     "6 corbels",
+     10000
+    ],
+    [
+     "Antico marble floor",
+     30000
+    ],
+    [
+     "Two chandeliers",
+     35000
+    ],
+    [
+     "Arches and radiator top",
+     13000.0
+    ],
+    [
+     "3 radiator covers",
+     14000
+    ],
+    [
+     "Gold filigree and pearl inlay",
+     27000
+    ],
+    [
+     "4 pillars",
+     13000
+    ],
+    [
+     "Radiators by the speaker's seat",
+     60000
+    ],
+    [
+     "Door arch and fire door",
+     16000
+    ],
+    [
+     "Second fire door",
+     16000
+    ],
+    [
+     "Two further doors",
+     6000
+    ],
+    [
+     "Jali frames and window arch",
+     10000.0
+    ],
+    [
+     "Green onyx base",
+     8500
+    ],
+    [
+     "Carved lions",
+     5000
+    ],
+    [
+     "Altar seat",
+     9500
+    ],
+    [
+     "Archways and cornice",
+     18000
+    ],
+    [
+     "4 pillars",
+     16000
+    ],
+    [
+     "Archway decoration",
+     11000
+    ],
+    [
+     "Ceiling trim",
+     12000
+    ],
+    [
+     "Extra decoration",
+     10000
+    ],
+    [
+     "Corbels",
+     6000
+    ],
+    [
+     "Marble wall cladding",
+     13000
+    ],
+    [
+     "Ceiling alcove",
+     25000
+    ],
+    [
+     "Concealed lighting",
+     26000
+    ],
+    [
+     "Sound system",
+     8000
+    ],
+    [
+     "Altar garden",
+     4000
+    ]
+   ]
+  }
+ ],
+ "lotus": [
+  {
+   "title": "Lotus Hall",
+   "rows": [
+    [
+     "Flooring",
+     30000
+    ],
+    [
+     "Equipment",
+     5000
+    ],
+    [
+     "Decorative archways",
+     15000
+    ],
+    [
+     "Venetian plaster walls",
+     20000
+    ],
+    [
+     "Screen",
+     1000
+    ],
+    [
+     "Sound system",
+     5000.0
+    ],
+    [
+     "Interactive library",
+     3000.0
+    ],
+    [
+     "Dome",
+     30000
+    ]
+   ]
+  }
+ ],
+ "govindas": [
+  {
+   "title": "Café",
+   "rows": [
+    [
+     "Counter",
+     2500
+    ],
+    [
+     "Suspended ceiling",
+     8000
+    ],
+    [
+     "Decorative details",
+     3500
+    ],
+    [
+     "20 tables",
+     3500
+    ],
+    [
+     "30 chairs",
+     2100
+    ],
+    [
+     "4 speakers",
+     4000
+    ],
+    [
+     "L-shaped bench",
+     4500
+    ],
+    [
+     "Bain-marie and food storage",
+     3000
+    ],
+    [
+     "Cutlery and tableware",
+     1400
+    ],
+    [
+     "Lighting",
+     3000
+    ],
+    [
+     "7 arches",
+     5300
+    ],
+    [
+     "Counter under the arches",
+     2500
+    ],
+    [
+     "Extra decoration",
+     4000
+    ],
+    [
+     "Pillar",
+     2000
+    ],
+    [
+     "Copper Venetian plaster in the archways",
+     3500
+    ],
+    [
+     "Paint",
+     6400
+    ]
+   ]
+  },
+  {
+   "title": "Kitchen",
+   "rows": [
+    [
+     "Kitchen equipment",
+     25000.0
+    ]
+   ]
+  }
+ ],
+ "wellbeing": [
+  {
+   "title": "Yoga Studio",
+   "rows": [
+    [
+     "Pillars and archway",
+     8000
+    ],
+    [
+     "Engineered wood flooring",
+     5500
+    ],
+    [
+     "4 radiator covers",
+     10000
+    ],
+    [
+     "Decorative details",
+     2500
+    ],
+    [
+     "Concealed lighting",
+     3500
+    ],
+    [
+     "Wall paint (70 m²)",
+     12000
+    ],
+    [
+     "Venetian plaster in 4 alcoves",
+     2400
+    ],
+    [
+     "Equipment",
+     4000
+    ],
+    [
+     "Ceiling speakers",
+     2000
+    ],
+    [
+     "3D-printed statue",
+     1500
+    ],
+    [
+     "Ceiling paint",
+     3000
+    ],
+    [
+     "Cupboard and shelving",
+     4600
+    ]
+   ]
+  },
+  {
+   "title": "Ayurvedic Treatment Room",
+   "rows": [
+    [
+     "Treatment equipment",
+     10000.0
+    ],
+    [
+     "Room divider (stud wall)",
+     3000.0
+    ],
+    [
+     "Marble paint walls",
+     15000
+    ],
+    [
+     "Antico marble floor",
+     8000
+    ],
+    [
+     "Decoration",
+     6000
+    ],
+    [
+     "3D-printed Dhanvantari statue",
+     2000
+    ],
+    [
+     "Room fit-out and equipment",
+     10000.0
+    ],
+    [
+     "Venetian plaster in 3 alcoves",
+     1500
+    ],
+    [
+     "Shower",
+     4500
+    ],
+    [
+     "Lighting",
+     2000
+    ],
+    [
+     "Reception area",
+     6000.0
+    ],
+    [
+     "Radiator covers",
+     8000
+    ]
+   ]
+  }
+ ],
+ "roof": [
+  {
+   "title": "Guest Suites",
+   "rows": [
+    [
+     "Plumbing and en-suite bathrooms",
+     15000
+    ],
+    [
+     "Paint",
+     9000
+    ],
+    [
+     "Decoration",
+     12000
+    ],
+    [
+     "Beds",
+     5000
+    ],
+    [
+     "Furniture",
+     6000
+    ],
+    [
+     "Extra decoration",
+     3000
+    ],
+    [
+     "Lighting",
+     6000
+    ]
+   ]
+  },
+  {
+   "title": "Rooftop garden",
+   "rows": [
+    [
+     "Rooftop garden fit-out",
+     10000.0
+    ]
+   ]
+  }
+ ],
+ "shared": [
+  {
+   "title": "Offices",
+   "rows": [
+    [
+     "Paint",
+     3000
+    ],
+    [
+     "Office equipment",
+     6000
+    ],
+    [
+     "Flooring",
+     4000
+    ],
+    [
+     "Decoration",
+     1000
+    ]
+   ]
+  },
+  {
+   "title": "Bathrooms",
+   "rows": [
+    [
+     "Plumbing",
+     12000
+    ],
+    [
+     "Flooring and walls",
+     12000
+    ],
+    [
+     "Lighting",
+     4000
+    ]
+   ]
+  },
+  {
+   "title": "Entrance, hallways and other areas",
+   "rows": [
+    [
+     "Shoe area flooring",
+     4125
+    ],
+    [
+     "Window seat",
+     600
+    ],
+    [
+     "Lighting",
+     3000
+    ],
+    [
+     "Flooring",
+     1500
+    ],
+    [
+     "Large shoe cabinet",
+     3100
+    ],
+    [
+     "Small shoe cabinet",
+     2200
+    ],
+    [
+     "Marble wall paint",
+     6500
+    ],
+    [
+     "Venetian plaster in alcove",
+     600
+    ],
+    [
+     "Radiator cover",
+     2500
+    ],
+    [
+     "Lift renovation",
+     3000
+    ],
+    [
+     "Decoration around the lift",
+     3500
+    ],
+    [
+     "Radiator cover",
+     2500
+    ],
+    [
+     "Kitchen equipment",
+     1600
+    ],
+    [
+     "Kitchenette lighting",
+     2000
+    ],
+    [
+     "Fridge",
+     250
+    ],
+    [
+     "Kitchenette wall tiles (21 m²)",
+     2200
+    ],
+    [
+     "Island countertop",
+     2000
+    ],
+    [
+     "Sink",
+     650
+    ],
+    [
+     "Shelves",
+     650
+    ],
+    [
+     "Lighting",
+     3000
+    ],
+    [
+     "Two wardrobes",
+     5200
+    ],
+    [
+     "Two stainless steel sinks",
+     1600
+    ],
+    [
+     "Lighting",
+     2750
+    ],
+    [
+     "Counter drawers, oven and induction hob",
+     4000
+    ],
+    [
+     "Venetian plaster in alcove archway",
+     600
+    ],
+    [
+     "Antico marble flooring",
+     4100
+    ],
+    [
+     "Wall tiles",
+     7350
+    ],
+    [
+     "Floor and stairs",
+     10000
+    ],
+    [
+     "Remove old water cylinder",
+     6500
+    ]
+   ]
+  }
+ ]
+};
+
+/* Recorded voiceover: when Tarakanath's recording is ready, it can replace the sample computer voice. */
+
+const ROOMS = {
+  arrival:{name:"Reception & Exhibition", tag:"Mind · Welcome and education",
+    feats:[
+      ["Copper water walls","Two slim copper water walls, carved archways and a chandelier set a calm first impression."],
+      ["Interactive exhibition","Screens, surround sound and a VR booth bring the ideas behind yoga and wellbeing to life."],
+      ["Education","Talks, courses and school visits start here."]
+    ]},
+  temple:{name:"The Sanctuary", tag:"Soul · The heart of the building",
+    feats:[
+      ["Marble altar","Cool to the touch; in Indian tradition marble is chosen because it calms and pleases the heart. Set with green onyx."],
+      ["Jaipur and Mughal craftsmanship","Carved pillars, arches and corbels, gold filigree, and inlays of gemstone and mother-of-pearl."],
+      ["Open to everyone","A space for meditation, mantra and stillness, whatever your background."]
+    ]},
+  lotus:{name:"The Lotus Hall", tag:"Community · Gathering and events",
+    feats:[
+      ["A place to gather","Talks, workshops and community functions beneath a magnificent dome."],
+      ["For local business","Meetings, away-days and team events, with screen and sound system."],
+      ["Interactive library","A place to browse and learn at your own pace."]
+    ]},
+  govindas:{name:"Govinda's Café & Kitchen", tag:"Body · Food that feeds the soul",
+    feats:[
+      ["Vegetarian, made with care","From the team behind Govinda's in Swansea and Cardiff."],
+      ["Seven arches","Copper Venetian plaster archways, an L-shaped bench and seating for thirty."],
+      ["Office catering","Healthy vegetarian lunches from our kitchen, delivered to workplaces across the city."]
+    ]},
+  wellbeing:{name:"Yoga & Ayurveda", tag:"Body & mind · Wellbeing you can take home",
+    feats:[
+      ["Yoga studio","Classes for every level, from first-timers upwards."],
+      ["Ayurvedic treatment room","Traditional therapies and lifestyle advice, with its own shower and reception."],
+      ["Practical tools","Help with stress and sleep that people can use at work and at home."]
+    ]},
+  roof:{name:"Guest Suites & Rooftop Garden", tag:"Retreat · Room to breathe",
+    feats:[
+      ["Garden above the Bay","Open sky over Cardiff Bay, a rare green space in the city."],
+      ["Guest suites","En-suite rooms where visitors can stay for a retreat, a course or a festival."],
+      ["Retreats","The setting for full wellbeing retreats, including for partner teams."]
+    ]},
+  shared:{name:"Shared Spaces"}
+};
+
+const SCENES = [
+  {id:"welcome", chapter:"Croeso · Welcome", type:"title", beats:[
+    "Croeso. Welcome to Tŷ Krishna Cymru, a centre for wellbeing of body, mind and soul.",
+    "My name is Tārakānātha, and I'd like to show you what we're building here in Cardiff Bay."
+  ], vo:{src:"audio/vo-welcome.mp3", dur:12.2, t:[0.0,6.87], rv:[0,1]}},
+  {id:"roots", chapter:"Our roots", type:"timeline", beats:[
+    "Our story began in Swansea, with a small group of people sharing yoga, meditation and good vegetarian food.",
+    "That grew into Govinda's, our cafés in Swansea and Cardiff, where people from every walk of life eat together.",
+    "Through Food for Life Wales, we cook free meals for people in need.",
+    "We've served over one million meals since we began in 1990.",
+    "All of it has been grassroots: volunteers, local supporters and plenty of rolled-up sleeves.",
+    "And ten years ago, it led us all here to Cardiff Bay."
+  ], vo:{src:"audio/vo-roots.mp3", dur:34.86, t:[0.0,7.58,17.15,21.38,25.42,31.2], rv:[0,1,2,2,2,3]}},
+  {id:"building", chapter:"The building", type:"building", beats:[
+    "This is Dock Chambers on Bute Street, built around 1860, and said to be the first purpose-built offices in Butetown.",
+    "From 1874 it housed a bank, in the years when this port sent Welsh coal all over the world.",
+    "Tiger Bay, as it was known, became Wales's oldest multi-ethnic community, with families from over 50 countries.",
+    "Today it's a Grade II listed building, and once again a meeting place for many cultures."
+  ], vo:{src:"audio/vo-building.mp3", dur:27.47, t:[0.0,7.87,14.66,21.64], rv:[0,1,2,3]}},
+  {id:"phase", chapter:"From build to opening", type:"phase", beats:[
+    "Around £5 million has gone into restoring this building and expanding outwards, with a new three-storey glass extension.",
+    "Now we're on to phase two: bringing each room to life, ready to open in 2027.",
+    "Let me show you around."
+  ], vo:{src:"audio/vo-phase.mp3", dur:15.17, t:[0.0,8.19,13.47], rv:[0,1,1]}},
+  {id:"arrival", chapter:"Reception & Exhibition", type:"room", room:"arrival", beats:[
+    "Visitors arrive through the reception.",
+    "Copper water walls, carved arches and a chandelier make a stunning welcome.",
+    "Next door, exhibitions in our Discovery Space explore wellbeing, ancient wisdom, cultures and local heritage.",
+    "Interactive displays and virtual reality create an inspiring, educational experience for visitors of all ages, from all walks of life."
+  ], vo:{src:"audio/vo-arrival.mp3", dur:25.97, t:[0.0,2.59,7.72,15.7], rv:[0,1,2,3]}},
+  {id:"temple", chapter:"The Sanctuary", type:"room", room:"temple", beats:[
+    "At the heart of the building is the sanctuary, a sacred space for meditation and stillness.",
+    "The altar is marble.",
+    "Marble stays naturally cool in the summer, and in Indian tradition it's chosen because it calms and pleases the heart.",
+    "Carved pillars and arches draw on Jaipur and Vedic tradition, with gold filigree and inlays of gemstone and mother-of-pearl."
+  ], vo:{src:"audio/vo-temple.mp3", dur:23.6, t:[0.0,6.78,8.36,15.53], rv:[0,1,1,3]}},
+  {id:"lotus", chapter:"The Lotus Hall", type:"room", room:"lotus", beats:[
+    "The Lotus Hall is our main gathering space, with a magnificent dome rising through the ceiling of the sacred space below.",
+    "It will host talks, workshops and community functions,",
+    "and is available to local businesses for meetings and team-building days,",
+    "with an interactive library to explore."
+  ], vo:{src:"audio/vo-lotus.mp3", dur:18.06, t:[0.0,7.27,10.86,15.18], rv:[0,1,2,3]}},
+  {id:"govindas", chapter:"Govinda's Café", type:"room", room:"govindas", beats:[
+    "Govinda's Café will be a perfect setting to enjoy delicious and nutritious vegetarian food,",
+    "cooked with love by the team behind our Swansea and Cardiff cafés.",
+    "Diners sit beneath seven arches finished in copper Venetian plaster.",
+    "A new state-of-the-art kitchen will also increase the capacity of our Food for Life project,",
+    "and even cater for offices throughout the city."
+  ], vo:{src:"audio/vo-govindas.mp3", dur:24.54, t:[0.0,6.79,10.75,15.95,21.28], rv:[0,1,2,3,3]}},
+  {id:"wellbeing", chapter:"Yoga & Ayurveda", type:"room", room:"wellbeing", beats:[
+    "There are classes for every level,",
+    "treatments drawing on both traditional holistic and allopathic methods of care, and lifestyle advice,",
+    "delivered by a diversely qualified team of experts."
+  ], vo:{src:"audio/vo-wellbeing.mp3", dur:12.91, t:[0.0,2.2,9.08], rv:[1,2,3]}},
+  {id:"roof", chapter:"Guest suites & rooftop", type:"room", room:"roof", beats:[
+    "And right at the top, a garden with open sky over the Bay.",
+    "It's a rare bubble of calm, with breathtaking views all around.",
+    "With four en-suite guest rooms,",
+    "it's a perfect setting for a course, a wellbeing retreat or a peaceful getaway."
+  ], vo:{src:"audio/vo-roof.mp3", dur:14.9, t:[0.0,3.87,7.9,9.88], rv:[1,1,2,3]}},
+  {id:"partner", chapter:"Partner with us", type:"tiers", beats:[
+    "Every one of these rooms now needs finishing, and that's where your company can join the story, as a founding partner.",
+    "A Bronze tier gift could help furnish the café.",
+    "Silver could create the rooftop garden, or equip the kitchen that cooks the free meals.",
+    "From £50,000, you could help shape the Lotus Hall, or the sacred space itself.",
+    "Giving tax-efficiently, giving may cost less than you think.",
+    "Company donations to charity come out of the taxable profits, and can even move you into a lower tax bracket.",
+    "Every partner is thanked publicly, and we'd love to welcome your team here for wellbeing days and mindful experiences."
+  ], vo:{src:"audio/vo-partner.mp3", dur:39.67, t:[0.0,6.83,9.67,15.21,21.08,25.17,32.88], rv:[0,1,2,3,4,4,4]}},
+  {id:"close", chapter:"Diolch · Thank you", type:"close", beats:[
+    "Tŷ Krishna began with a few friends in Swansea. With your help, it can be a place of peace in Cardiff Bay for generations to come.",
+    "Please come and visit us. We'd love to show you around in person.",
+    "Diolch yn fawr. Thank you."
+  ], vo:{src:"audio/vo-close.mp3", dur:14.15, t:[0.0,8.19,11.97], rv:[0,1,1]}}
+];
+
+/* ============================================================
+   DESIGN — images, scene backgrounds and motifs from Pali's brochure
+   ============================================================ */
+const IMG = n => `img/${n}.webp`;
+/* Background for each chapter: sky (cover), navy, pale blue or cream, as in the brochure. */
+const THEME = { welcome:"t-sky", roots:"t-navy t-leaves", building:"t-navy", phase:"t-pale",
+  arrival:"t-cream", temple:"t-cream", lotus:"t-navy", govindas:"t-cream", wellbeing:"t-navy", roof:"t-cream",
+  partner:"t-cream", close:"t-navy" };
+/* Room pictures: main render, optional inset render, captions. */
+const MEDIA = {
+  arrival:  {main:"reception",  cap:"Reception", inset:"exhibition", cap2:"Exhibition room", ar:"1349/817"},
+  temple:   {main:"sanctuary",  cap:"Entrance to the sanctuary", ar:"5/4",
+             thumbs:[["sanct-windows","Carved lattice windows"],["sanct-ceiling","Lotus chandeliers"],["sanct-altar","The altar"]]},
+  lotus:    {main:"lotus-dome", cap:"Lotus Hall · Dome", inset:"lotus-learning", cap2:"Learning zone", ar:"16/9"},
+  govindas: {main:"govindas",   cap:"Govinda's vegetarian restaurant", inset:"kitchen", cap2:"Food for Life kitchen", ar:"16/9"},
+  wellbeing:{main:"yoga",       cap:"Yoga studio", inset:"ayurveda", cap2:"Ayurvedic treatment rooms", ar:"4/3"},
+  roof:     {main:"rooftop",    cap:"Rooftop meditation garden", inset:"guestrooms", cap2:"Ensuite guest rooms", ar:"4/3"}
+};
+/* Rooms whose video and photos can be enlarged (Govinda's not included for now) */
+const ZOOM_ROOMS = ["arrival","temple","lotus","wellbeing","roof"];
+/* CGI walkthrough clips cut from the Tŷ Krishna film (new-build CGI only). */
+const CLIPS = {
+  arrival:  {len:"0:28", cap:"Reception, stairs and exhibition room"},
+  temple:   {len:"2:20", cap:"The sanctuary and its materials"},
+  lotus:    {len:"0:16", cap:"The Lotus Hall"},
+  govindas: {len:"0:17", cap:"Govinda's café and kitchen"},
+  wellbeing:{len:"0:23", cap:"Ayurveda, yoga and wellbeing rooms"},
+  roof:     {len:"0:23", cap:"Rooftop garden and guest rooms"}
+};
+const ORN = (r="") => `<svg class="${r}" viewBox="0 0 64 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M62 9 C48 9 40 13 32 12 C25 11 25 4 31 4.5 C36 5 35 11 29 11.5 C22 12 18 6 10 7 C6 7.5 4 10 6 12 C8 13.5 10.5 11.5 9 10"/><circle cx="62" cy="9" r="1.2" fill="currentColor"/></svg>`;
+const ARROW = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h15m-5-5 5 5-5 5"/></svg>`;
+
+/* ============================================================
+   SCENE TEMPLATES
+   ============================================================ */
+const P = s => s.replace(/\[([^\]]+)\]/g,'<em class="ph">[$1]</em>');
+const T = {
+  title: s => `<section class="title-wrap">
+      <img class="clouds" src="${IMG("clouds2-hd")}" alt="" style="left:-4%;top:-6%;width:52%">
+      <div class="stack" style="position:relative;z-index:1">
+        <img class="wordmark b" data-b="0" src="${IMG("wordmark-welcome")}" alt="Tŷ Krishna Cymru" style="width:min(236px,62%);margin-left:clamp(0px,3vw,40px)">
+        <span class="orn open27 b" data-b="0" style="font-size:var(--open-fs,1.35rem)">${ORN()}Opening 2027${ORN("r")}</span>
+        <h1 class="b" data-b="0" style="font-size:clamp(2.1rem,4vw,3.4rem)">Wellbeing for body, mind and soul</h1>
+        <p class="lede b" data-b="1">Putting the soul back into wellness: yoga, Ayurveda, education, community, Food for Life and Govinda's vegetarian restaurant, in a world-class facility restored inside one of Butetown's earliest office buildings.</p>
+        <div class="bms b" data-b="1">
+          <div class="p"><div class="pics"><img src="${IMG("body1")}" alt=""><img src="${IMG("body2")}" alt=""></div><span class="w">Body</span><span class="s">देह<i>deha</i></span></div>
+          ${ORN()}
+          <div class="p"><div class="pics"><img src="${IMG("mind1")}" alt=""><img src="${IMG("mind2")}" alt=""></div><span class="w">Mind</span><span class="s">मनस्<i>manas</i></span></div>
+          ${ORN()}
+          <div class="p"><div class="pics"><img src="${IMG("soul1")}" alt=""><img src="${IMG("soul2")}" alt=""></div><span class="w">Soul</span><span class="s">आत्मा<i>ātmā</i></span></div>
+        </div>
+        <p class="presenter b" data-b="1">Presented by Tārakānātha Dāsa, Managing Director</p>
+      </div>
+      <div class="hero-col b" data-b="0" style="z-index:1">
+        <div class="photo hero-card"><img src="${IMG("hero")}" alt="Architect's render of the glass extension and rooftop garden"></div>
+        <div class="backed"><span class="backed-lbl">This project is backed by</span><img src="img/backers-hd.png" alt="Welsh Government, The National Lottery Community Fund and The National Lottery Heritage Fund"></div>
+      </div>
+    </section>`,
+  timeline: s => `<section class="tl">
+      <div><span class="eyebrow">Our roots</span><h2 style="margin-top:.4rem">Grassroots, from Swansea to the Bay</h2></div>
+      <div class="tl-track">
+        <div class="tl-item b" data-b="0"><span class="when">${P("[Year]")}</span><h3>Swansea</h3><p>A small community sharing yoga, meditation and vegetarian food.</p></div>
+        <div class="tl-item b" data-b="1"><span class="when">${P("[Year]")}</span><h3>Govinda's cafés</h3><p>Vegetarian cafés in Swansea and Cardiff, open to everyone.</p></div>
+        <div class="tl-item b" data-b="2"><span class="when">Since 1990</span><h3>Food for Life Wales</h3><p>Free hot meals for people in need, kept going through the pandemic.</p></div>
+        <div class="tl-item b" data-b="3"><span class="when">2016</span><h3>Cardiff Bay</h3><p>Dock Chambers on Bute Street is bought to become Tŷ Krishna.</p></div>
+      </div>
+      <div class="stats b" data-b="3">
+        <div class="stat"><span class="n">1,000,000+</span><span class="l">Free hot meals<small>distributed since 1990</small></span></div>
+        <div class="stat"><span class="n">500+</span><span class="l">Volunteers<small>engaged in our work</small></span></div>
+        <div class="stat"><span class="n">250+</span><span class="l">Events<small>festivals and workshops every year</small></span></div>
+      </div></section>`,
+  building: s => `<section class="bld">
+      <div class="b" data-b="0"><div class="photo" style="aspect-ratio:694/900;max-height:60vh;max-width:min(100%,46vh)"><img src="${IMG("front")}" alt="Aerial view of the Dock Chambers frontage"></div>
+        <p class="smallcaps cap"><b>Front</b> | Original building</p></div>
+      <div class="facts">
+        <div><span class="eyebrow">The building</span><h2 style="margin-top:.4rem">Dock Chambers, Bute Street</h2>
+          <p class="lede" style="margin-top:.6rem">A beautifully restored Victorian building, where the beauty of the ancient East meets the modern West.</p></div>
+        <div class="fact b" data-b="0"><span class="k">c.1860</span><p>Built by the Bute estate. Said to be the first purpose-built offices in Butetown.</p></div>
+        <div class="fact b" data-b="1"><span class="k">1874</span><p>Cardiff Docks branch of the National Provincial Bank, until 1927, at the height of the coal trade.</p></div>
+        <div class="fact b" data-b="2"><span class="k">50+</span><p>Countries whose sailors and families made Tiger Bay Wales' oldest multi-ethnic community.</p></div>
+        <div class="fact b" data-b="3"><span class="k">II</span><p>Grade II listed (1992) as part of Bute Street's Victorian commercial group.</p></div>
+      </div></section>`,
+  phase: s => `<section class="phase2">
+      <div class="ph-top">
+        <div class="l">
+          <h2 class="b" data-b="0">From restoration to opening day</h2>
+          <div class="b fivem" data-b="0"><div class="bignum">£5 million</div>
+            <p class="lede">raised and invested so far to restore the building and complete the shell, including a new three-storey glass extension.</p></div>
+          <button class="cost-btn b" data-b="1" data-cost="shared">See costs for offices, bathrooms and hallways →</button>
+        </div>
+        <div class="r b" data-b="0"><div class="photo back"><img src="${IMG("back")}" alt="The new glass extension at the back of the building"></div>
+          <p class="smallcaps cap"><b>Back</b> | Glass extension</p></div>
+      </div>
+      <div class="ptl2">
+        <div class="pbub one b" data-b="0"><span class="tag">Phase one · Complete ✓</span><h3>Restore and build</h3><p class="dk">Restoring the Victorian building and adding the glass extension.</p></div>
+        <div class="pbub two b" data-b="1"><span class="tag">Phase two · Now</span><h3>Bring the rooms to life</h3><p class="dk">Finishing and furnishing each space.</p></div>
+        <div class="pit first b" data-b="0"><img src="${IMG("tl-2016")}" alt=""><span class="yr">2016</span><span class="lb">Building purchased</span></div>
+        <div class="pit b" data-b="0"><img src="${IMG("tl-2021")}" alt=""><span class="yr">2021</span><span class="lb">Planning approved</span></div>
+        <div class="pit b" data-b="0"><img src="${IMG("tl-2022")}" alt=""><span class="yr">2022</span><span class="lb">Construction started</span></div>
+        <div class="pit b" data-b="0"><img src="${IMG("tl-2026")}" alt=""><span class="yr">2025</span><span class="lb">Keys received</span></div>
+        <div class="pit now b" data-b="1"><div class="ba"><img src="${IMG("before")}" alt="A room today">${ARROW}<img src="${IMG("after")}" alt="The same space finished"></div><span class="yr">Now</span><span class="lb">Fit-out</span></div>
+        <div class="pit last future b" data-b="1"><div class="open">Opening<br>2027</div><span class="yr">2027</span><span class="lb">Doors open</span></div>
+      </div></section>`,
+  room: s => { const r = ROOMS[s.room], m = MEDIA[s.room], c = CLIPS[s.room]; return `<section class="room${ZOOM_ROOMS.includes(s.room)?" zoomable":""}">
+      ${c?`<div class="media has-vid b" data-b="0">
+        <div class="photo vid"><video src="vid/${s.room}.mp4" poster="vid/${s.room}.webp" muted loop playsinline preload="metadata" disablepictureinpicture aria-label="CGI walkthrough: ${c.cap}"></video></div>
+        <div class="thumbs${m.thumbs?" three":""}">
+          ${(m.thumbs||[[m.main,m.cap]].concat(m.inset?[[m.inset,m.cap2]]:[])).map(([f,c])=>`<figure><div class="photo"><img src="${IMG(f)}" alt="Render: ${c}"></div><figcaption class="smallcaps">${c}</figcaption></figure>`).join("")}
+        </div>
+      </div>`:`<div class="media b" data-b="0">
+        <div class="photo main" style="--ar:${m.ar}"><img src="${IMG(m.main)}" alt="Render: ${m.cap}"></div>
+        ${m.inset?`<div class="photo inset"><img src="${IMG(m.inset)}" alt="Render: ${m.cap2}"><span class="inlab">${m.cap2}</span></div>`:""}
+        <div class="caps"><p class="smallcaps">${m.cap}</p></div>
+      </div>`}
+      <div class="copy" style="position:relative">
+        ${s.room==="temple"?`<img class="bird b" data-b="2" src="${IMG("bird")}" alt="">`:""}
+        <span class="eyebrow b" data-b="0">${r.tag}</span>
+        <h2 class="b" data-b="0">${r.name}</h2>
+        <ul class="feat">${r.feats.map((f,i)=>`<li class="b" data-b="${i+1}"><span><b>${f[0]}.</b> ${f[1]}</span></li>`).join("")}</ul>
+        ${s.room==="temple"?`<div class="materials b" data-b="2">${[["m-pearl","Mother-of-pearl"],["m-bluequartz","Blue quartz"],["m-marble","Marble"],["m-onyx","Onyx"],["m-pinkquartz","Pink quartz"]].map(([f,l])=>`<div class="mat"><img src="${IMG(f)}" alt=""><span>${l}</span></div>`).join("")}</div>`:""}
+        <button class="cost-btn b" data-b="0" data-cost="${s.room}">See the costs for this room →</button>
+      </div></section>`; },
+  tiers: s => `<section class="tiers-wrap">
+      <img class="flo l" src="${IMG("flourish")}" alt=""><img class="flo r" src="${IMG("flourish")}" alt="">
+      <div class="head b" data-b="0"><h2>Partner with us</h2><span class="eyebrow">Join the story as a founding partner</span></div>
+      <div class="divider b" data-b="0" style="width:min(420px,80%)">${ORN()}${ORN("r")}</div>
+      <div class="tiers">
+        <div class="tier b" data-b="1" style="--c:var(--bronze)"><div class="tpic"><img src="${IMG("govindas")}" alt="Govinda's Café"></div><span class="name">Bronze</span><span class="from">${P("From [£__]")}</span>
+          <p class="what">Help furnish <b>Govinda's Café</b></p></div>
+        <div class="tier b" data-b="2" style="--c:var(--silver)"><div class="tpic"><img src="${IMG("rooftop")}" alt="The rooftop garden"></div><span class="name">Silver</span><span class="from">${P("From [£__]")}</span>
+          <p class="what">Create the <b>rooftop garden</b>, or equip the <b>kitchen</b> that cooks the free meals</p></div>
+        <div class="tier b" data-b="3" style="--c:var(--gold-tier)"><div class="tpic"><img src="${IMG("lotus-dome")}" alt="The Lotus Hall dome"></div><span class="name">Gold</span><span class="from">From £50,000</span>
+          <p class="what">Help shape the <b>Lotus Hall</b>, or the <b>sacred space</b> itself</p></div>
+      </div>
+      <div class="extras b" data-b="4">
+        <div class="extra"><b>Giving tax-efficiently</b>Giving may cost less than you think. Company donations to charity come out of taxable profits, and can even move you into a lower tax bracket.</div>
+        <div class="extra"><b>Thanked and welcomed</b>Every partner is thanked publicly, and we'd love to welcome your team here for wellbeing days and mindful experiences.</div>
+      </div>
+      <p class="tax b" data-b="4">${P("Charity no. [______]. Please check the tax position with your accountant.")}</p>
+    </section>`,
+  close: s => `<section class="close">
+      <div class="close-bg"></div>
+      <div class="l" style="position:relative;z-index:1">
+        <img class="wordmark b" data-b="0" src="${IMG("wordmark")}" alt="Tŷ Krishna Cymru" style="width:min(240px,60%)">
+        <h1 class="b" data-b="0" style="font-size:clamp(2rem,3.8vw,3.2rem)">A place of peace in the heart of Cardiff Bay</h1>
+        <p class="thanks b" data-b="1">DIOLCH YN FAWR · THANK YOU</p>
+        <p class="share-ask b" data-b="1">Can't support us yourself? Please share this presentation with anyone you think could help us bring this wonderful vision to life.</p>
+        <div class="contact b" data-b="1">
+          <div><b>Visit</b>4 Dock Chambers, Cardiff CF10 5AG</div>
+          <div><b>Contact</b>Vamsi · <a href="mailto:vamsi@tykrishna.cymru">vamsi@tykrishna.cymru</a> · <a href="tel:+447826642995">+44 7826 642995</a></div>
+          <div><b>Web</b>tykrishna.cymru</div>
+        </div>
+        <div class="funders b" data-b="1"><span>With kind support from</span><img src="${IMG("funders")}" alt="National Lottery Community Fund, National Lottery Heritage Fund, Welsh Government"></div>
+      </div>
+      <div class="person b" data-b="0" style="position:relative;z-index:1">
+        <div class="photo"><img src="${IMG("tarakanath")}" alt="Tārakānātha Dāsa"></div>
+        <span class="nm">Tārakānātha Dāsa</span><span class="smallcaps">Managing Director</span>
+      </div></section>`
+};
+
+/* ============================================================
+   PLAYER
+   ============================================================ */
+const $ = s => document.querySelector(s);
+const stage = $("#stage"), cap = $("#caption span");
+$("#startOrn").innerHTML=ORN()+"Opening 2027"+ORN("r");
+SCENES.forEach((s,i)=>{
+  const el=document.createElement("div");
+  el.className="scene "+(THEME[s.id]||"t-navy"); el.id="scene-"+s.id; el.setAttribute("aria-hidden","true");
+  el.innerHTML=T[s.type](s); stage.appendChild(el); s.el=el;
+  const pb=document.createElement("button");
+  pb.setAttribute("aria-label",s.chapter); pb.title=s.chapter; pb.innerHTML="<i></i>";
+  pb.onclick=()=>goTo(i); $("#progress").appendChild(pb); s.pb=pb;
+});
+
+const st={i:0,beat:0,playing:false,voice:true,run:0,timer:null,audio:null};
+const synth = window.speechSynthesis || null;
+let voice=null;
+function pickVoice(){
+  if(!synth) return;
+  const vs=synth.getVoices(); if(!vs.length) return;
+  const gb=vs.filter(v=>/en[-_]GB/i.test(v.lang));
+  const pref=[/Daniel/i,/Arthur/i,/George/i,/Ryan/i,/Thomas/i,/UK English Male/i,/Oliver/i,/Male/i];
+  voice=null;
+  for(const re of pref){ voice=gb.find(v=>re.test(v.name)); if(voice) break; }
+  voice = voice || gb[0] || vs.find(v=>/^en/i.test(v.lang)) || null;
+}
+if(synth){ pickVoice(); synth.onvoiceschanged=pickVoice; }
+
+function reveal(scene, upto, current){
+  scene.el.querySelectorAll(".b").forEach(e=>{
+    const n=+e.dataset.b; e.classList.toggle("shown", n<=upto);
+  });
+  scene.pb.style.setProperty("--p", Math.round(Math.min(1,(upto+1)/scene.beats.length)*100)+"%");
+  void current;
+}
+function setCaption(t){ cap.textContent=t||""; cap.parentElement.style.visibility=t?"visible":"hidden"; }
+function updateUI(){
+  $("#playLbl").textContent=st.playing?"Pause":"Play";
+  $("#playIcon").innerHTML=st.playing
+    ?'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>'
+    :'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"/></svg>';
+  $("#play").setAttribute("aria-label", st.playing?"Pause the tour":"Play the tour");
+  $("#soundBtn").textContent=st.voice?"Voice on":"Voice off";
+  $("#soundBtn").setAttribute("aria-pressed", st.voice);
+  const s=SCENES[st.i];
+  $("#where").innerHTML=`<b>${s.chapter}</b> · ${st.i+1} of ${SCENES.length}`;
+  $("#prev").disabled = st.i===0;
+}
+/* Recorded voiceover: one audio player for the whole tour (so it keeps working on iPhones once the tour starts) */
+const voEl=new Audio(); voEl.preload="auto"; let voCleanup=null;
+const voPrefetch=new Audio(); voPrefetch.preload="auto";
+function playCue(s,k){
+  const myRun=st.run, vo=s.vo, t0=vo.t[k], t1=(k+1<vo.t.length)?vo.t[k+1]:Infinity;
+  const len=((isFinite(t1)?t1:vo.dur)-t0)*1000;
+  return new Promise(res=>{
+    let done=false, iv=null;
+    const cleanup=()=>{ clearInterval(iv); voEl.removeEventListener("ended",fin); voEl.removeEventListener("error",fail); voCleanup=null; };
+    function fin(){ if(done) return; done=true; cleanup(); clearTimeout(st.timer); if(myRun===st.run) res(); }
+    function fail(){ if(done) return; done=true; cleanup(); clearTimeout(st.timer); st.voFail=true; // fall back to the computer voice
+      if(myRun===st.run) speak(s.beats[k]).then(res); }
+    voCleanup=()=>{ done=true; cleanup(); };
+    if(!st.voice){ st.timer=setTimeout(fin, len); return; } // voice off: captions keep the recording's timing
+    const want=new URL(vo.src, location.href).href;
+    if(voEl.src!==want){ voEl.src=vo.src; }
+    const seek=()=>{ if(voEl.paused || Math.abs(voEl.currentTime-t0)>0.6){ try{ voEl.currentTime=t0; }catch(e){} } };
+    if(voEl.readyState>=1) seek(); else if(t0>0) voEl.addEventListener("loadedmetadata",seek,{once:true});
+    voEl.addEventListener("ended",fin); voEl.addEventListener("error",fail);
+    iv=setInterval(()=>{ if(isFinite(t1) && voEl.currentTime>=t1-0.02) fin(); },40);
+    const p=voEl.play(); if(p&&p.catch) p.catch(err=>{ if(err&&err.name==="AbortError") return; fail(); });
+    st.timer=setTimeout(fin, len+8000); // safety net if the browser never reports progress
+  });
+}
+function stopSound(){
+  st.run++; clearTimeout(st.timer);
+  if(voCleanup) voCleanup(); voEl.pause();
+  if(synth) synth.cancel();
+  if(st.audio){ st.audio.pause(); st.audio=null; }
+}
+function speak(text){
+  const myRun=st.run;
+  return new Promise(res=>{
+    const words=text.split(/\s+/).length;
+    const done=()=>{ clearTimeout(st.timer); if(myRun===st.run) res(); };
+    if(st.voice && synth && voice!==undefined){
+      const u=new SpeechSynthesisUtterance(text.replace(/Tŷ/g,"Tee").replace(/Cymru/g,"Cumree").replace(/Diolch yn fawr/g,"Dee-olch un vow-r").replace(/Croeso/g,"Croy-so"));
+      if(voice) u.voice=voice; u.lang=voice?voice.lang:"en-GB"; u.rate=.92; u.pitch=.92;
+      u.onend=done; u.onerror=done;
+      st.timer=setTimeout(done, words/1.9*1000+4000); // safety net if the browser never reports the end
+      setTimeout(()=>{ if(myRun===st.run) synth.speak(u); },60);
+    } else {
+      st.timer=setTimeout(done, words/2.6*1000+900);
+    }
+  });
+}
+async function runBeats(){
+  const myRun=st.run, s=SCENES[st.i];
+  while(st.playing && myRun===st.run){
+    if(st.beat>=s.beats.length){
+      await new Promise(r=>st.timer=setTimeout(r, s.vo&&!st.voFail ? 1000 : 1400));
+      if(!st.playing||myRun!==st.run) return;
+      // Still looking at the costs or an enlarged picture/video? Wait until it is closed, then a second.
+      const busy=()=>!$("#zoom").hidden||!$("#costs").hidden;
+      if(busy()){
+        await new Promise(r=>{ const chk=()=>{ if(!busy()||!st.playing||myRun!==st.run) r(); else setTimeout(chk,200); }; chk(); });
+        if(!st.playing||myRun!==st.run) return;
+        await new Promise(r=>st.timer=setTimeout(r,1000));
+        if(!st.playing||myRun!==st.run) return;
+      }
+      if(st.i<SCENES.length-1){ goTo(st.i+1,true); } else { st.playing=false; setCaption(""); updateUI(); releaseWake(); }
+      return;
+    }
+    reveal(s, s.vo ? s.vo.rv[st.beat] : st.beat);
+    setCaption(s.beats[st.beat]);
+    if(s.vo) s.pb.style.setProperty("--p", Math.round((st.beat+1)/s.beats.length*100)+"%");
+    if(s.vo && !st.voFail) await playCue(s, st.beat); else await speak(s.beats[st.beat]);
+    if(!st.playing||myRun!==st.run) return;
+    st.beat++;
+  }
+}
+/* CGI clips loop silently on the chapter on screen; every other clip is paused. */
+function syncClips(i){
+  SCENES.forEach((s,k)=>{
+    const v=s.el.querySelector(".vid video"); if(!v) return;
+    if(k===i){
+      v.preload="auto";
+      const start=(CLIPS[s.room]||{}).start;
+      if(start!=null){ // this clip opens at a set point each time the slide is shown; its loop still plays the whole clip
+        if(v.readyState>=1) v.currentTime=start;
+        else v.addEventListener("loadedmetadata",()=>{ if(SCENES[st.i]===s) v.currentTime=start; },{once:true});
+      }
+      const p=v.play(); if(p&&p.catch) p.catch(()=>{});
+    }
+    else { v.pause(); if(k===i+1) v.preload="auto"; }
+  });
+}
+function goTo(i, keepPlaying){
+  stopSound();
+  if(!$("#zoom").hidden) $("#zoom").hidden=true;
+  i=Math.max(0,Math.min(SCENES.length-1,i));
+  SCENES.forEach((s,k)=>{
+    s.el.classList.toggle("on",k===i); s.el.setAttribute("aria-hidden",k!==i);
+    if(k<i) s.pb.style.setProperty("--p","100%"); if(k>i) s.pb.style.setProperty("--p","0%");
+  });
+  st.i=i; st.beat=0;
+  syncClips(i);
+  const nx=SCENES[i+1]; if(nx&&nx.vo) voPrefetch.src=nx.vo.src; // fetch the next slide's voiceover in advance
+  const s=SCENES[i]; s.el.scrollTop=0;
+  if(keepPlaying ?? st.playing){ st.playing=true; reveal(s,-1); runBeats(); }
+  else { st.playing=false; reveal(s, s.beats.length); setCaption(""); }
+  updateUI();
+}
+function play(){
+  if(st.playing) return;
+  const s=SCENES[st.i];
+  if(st.i===SCENES.length-1 && st.beat>=s.beats.length){ goTo(0,true); return; }
+  // If the chapter was showing in full (browsing), start it from the top.
+  if(s.el.querySelectorAll(".b.shown").length===s.el.querySelectorAll(".b").length && st.beat===0){ reveal(s,-1); }
+  stopSound(); st.playing=true; updateUI(); runBeats(); keepAwake();
+}
+function pause(){
+  if(!st.playing) return;
+  st.playing=false; stopSound();
+  reveal(SCENES[st.i], SCENES[st.i].beats.length); // show the whole chapter so it can be talked through
+  updateUI();
+}
+$("#play").onclick=()=>{ musicUnlock(); st.playing?pause():play(); };
+$("#next").onclick=()=> goTo(st.i+1);
+$("#prev").onclick=()=> goTo(st.i-1);
+$("#soundBtn").onclick=()=>{
+  musicUnlock(); st.voice=!st.voice;
+  if(st.playing){ stopSound(); runBeats(); } updateUI();
+};
+
+/* Wake lock while playing (keeps a laptop screen on) */
+let wake=null;
+async function keepAwake(){ try{ if(navigator.wakeLock && !wake) wake=await navigator.wakeLock.request("screen"); }catch(e){} }
+function releaseWake(){ try{ wake&&wake.release(); }catch(e){} wake=null; }
+
+/* ============================================================
+   BACKGROUND MUSIC: "A Gentle Pulse", looping under the voiceover.
+   The bed is EQ'd and levelled offline (about 12 dB under the voice);
+   while Tarakanath speaks it dips a further 5 dB (a gentle sidechain),
+   following a speech envelope measured from each recording.
+   ============================================================ */
+const MUSIC={src:"audio/music.mp3", loopStart:38.65998, loopEnd:102.66086, duckDb:5};
+const DUCK={"vo-arrival.mp3":"588999999999999999999999999999999999999999876543322689999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999987654332268999999999999999999999999999999999999999999999999999999999999999999999999999998765437899999999999999999999999999999999999999999999999999999999998765433222211168899999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999987654332222111111000000000000000","vo-building.mp3":"588999999999999999999999999999999999999876543322689999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999876543322221168899999999999999999999999999999999999999999999987654332226899999999999999999999999999999999999999999999999999999999999876543322221111168899999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999876543322689999999999999999999999999999999999999999998765437899999999999999999999999999999999999999999999999999999999987654332","vo-close.mp3":"5889999999999999999999999999999999999999999999987654332689999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999876543322221111688999999999999999999999999999999999999999999999999999999999999999876543322268999999999999999876543322689999999876543322","vo-govindas.mp3":"58899999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999998765433222268999999999999999999999999999999999999999999999999999999998765433222211111100006889999999999999999999999999999999999999999999999999999999999999999999999999999999999998765433222211111168899999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999876543322","vo-lotus.mp3":"5889999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999998765433222211111688999999999999999999999999999999999999999999999999999999999999999876543789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999876543322221111","vo-partner.mp3":"5889999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999998765433789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999987654332222111111000688999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999998765433222211688999999999999999999999999999999999999999999999999999999999999999999999999987654378999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999998765433222211116889999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999987654332","vo-phase.mp3":"588999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999998765433222211111100068899999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999987654337899999999999999999999999876543322","vo-roof.mp3":"5889999999999999999999999999999999999999999999999999999999999999999999876543378999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999876543322","vo-roots.mp3":"5889999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999998765433222211111100688999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999987654332222111111000000000000000000000000000000000000000000588999999999999999999999999999999999999999999999999999999999999999999999999998765433789999999999999999999999999999999999999999999999999999999999999999999999987654332689999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999876543322","vo-temple.mp3":"5889999999999999999999999999999999999999998765433222689999999999999999999999999999999999999999999999999999999999999876543322221111110006889999999999999999999999876543789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999876543322221689999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999876543322","vo-welcome.mp3":"5889999999999987654332268999999999999999999999999999999987654378999999999999999999999999999999999999999999999999999999999999987654332222168999999999999999999999999876543326899999999999999999999999999999999999999999999999999999999999999876543322","vo-wellbeing.mp3":"588999999999999999999999999999999999876543378999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999876543322"}; // 20 steps a second, 0 = no speech, 9 = speech
+const music={ctx:null,buf:null,data:null,node:null,master:null,duck:null,started:false,el:null,on:false,offTimer:null};
+fetch(MUSIC.src).then(r=>r.ok?r.arrayBuffer():null).then(b=>{ music.data=b; musicDecode(); }).catch(()=>{});
+function musicDecode(){
+  if(!music.ctx||!music.data||music.buf) return;
+  const d=music.data; music.data=null;
+  music.ctx.decodeAudioData(d, b=>{ music.buf=b; musicSync(); }, ()=>{ music.ctx=null; });
+}
+/* Called from a click (Start the tour, Play, Voice on): browsers only allow sound to start from one. */
+function musicUnlock(){
+  try{ if(navigator.audioSession) navigator.audioSession.type="playback"; }catch(e){}
+  if(!music.ctx && !music.el){
+    const AC=window.AudioContext||window.webkitAudioContext;
+    try{
+      if(AC){
+        music.ctx=new AC();
+        music.master=music.ctx.createGain(); music.master.gain.value=0;
+        music.duck=music.ctx.createGain(); music.duck.gain.value=1;
+        music.duck.connect(music.master); music.master.connect(music.ctx.destination);
+        musicDecode();
+      }
+    }catch(e){ music.ctx=null; }
+    if(!music.ctx){ music.el=new Audio(MUSIC.src); music.el.loop=true; music.el.volume=.9; }
+  }
+  if(music.ctx && music.ctx.state!=="running") music.ctx.resume().catch(()=>{});
+  musicSync();
+}
+function musicWanted(){ return st.playing && st.voice && $("#start").hidden; }
+/* Fade the music in or out to match the tour; dip it under the voice. */
+function musicSync(){
+  const want=musicWanted();
+  if(music.el){ // fallback without Web Audio: plain looping track
+    if(want&&music.el.paused) music.el.play().catch(()=>{}); else if(!want&&!music.el.paused) music.el.pause();
+    return;
+  }
+  const c=music.ctx; if(!c||!music.buf) return;
+  if(want && !music.started){
+    const n=c.createBufferSource(); n.buffer=music.buf; n.loop=true;
+    n.loopStart=MUSIC.loopStart; n.loopEnd=MUSIC.loopEnd; n.connect(music.duck); n.start(0,0);
+    music.node=n; music.started=true;
+  }
+  if(want===music.on) return;
+  music.on=want; clearTimeout(music.offTimer);
+  const g=music.master.gain, now=c.currentTime;
+  g.cancelScheduledValues(now); g.setValueAtTime(g.value,now);
+  if(want){ if(c.state!=="running") c.resume().catch(()=>{}); g.setTargetAtTime(1,now,.35); }
+  else{
+    const ended=st.i===SCENES.length-1 && st.beat>=SCENES[st.i].beats.length;
+    const tau=ended?1.1:.25; g.setTargetAtTime(0,now,tau);
+    music.offTimer=setTimeout(()=>{ if(!music.on) c.suspend().catch(()=>{}); }, tau*6000); // hold its place for Play
+  }
+}
+setInterval(()=>{
+  musicSync();
+  if(!music.ctx||!music.on) return;
+  let e=0;
+  if(!voEl.paused){ const k=voEl.src.split("/").pop(), env=DUCK[k]; if(env){ const c=env[Math.floor(voEl.currentTime*20)]; e=c?(+c)/9:0; } }
+  else if(synth&&synth.speaking) e=1;
+  const target=Math.pow(10,-MUSIC.duckDb*e/20);
+  music.duck.gain.setTargetAtTime(target, music.ctx.currentTime, .06);
+},50);
+
+/* Full screen */
+$("#fsBtn").onclick=async()=>{
+  try{ if(document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen(); }catch(e){}
+};
+
+/* Enlarged view of a room's video or photo */
+document.querySelectorAll(".zoomable .media .photo").forEach(ph=>{
+  ph.tabIndex=0; ph.setAttribute("role","button");
+  const im=ph.querySelector("img"); ph.setAttribute("aria-label","Enlarge "+(im?im.alt.replace(/^Render: /,""):"the CGI walkthrough"));
+});
+let zoomFrom=null, zoomSrc=null, zoomBusy=false, zoomClosing=false, zoomOpenTimer=0;
+const ZOOM_MS = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 420;
+const ZOOM_EASE = "cubic-bezier(.2,.8,.2,1)";
+function zoomFinal(ar){ // largest box of this shape that fits, leaving room for the caption
+  const vw=innerWidth, vh=innerHeight, w=Math.min(vw*.92, vh*.78*ar), hgt=w/ar;
+  return {left:(vw-w)/2, top:Math.max(16,(vh-hgt-44)/2), width:w, height:hgt, borderRadius:"16px"};
+}
+const boxOf = el => { const r=el.getBoundingClientRect(); return {left:r.left, top:r.top, width:r.width, height:r.height, borderRadius:getComputedStyle(el).borderRadius}; };
+const px = b => ({left:b.left+"px", top:b.top+"px", width:b.width+"px", height:b.height+"px", borderRadius:b.borderRadius});
+function placeCap(b){ $("#zoomCap").style.top=(b.top+b.height+14)+"px"; }
+function openZoom(ph){
+  if(zoomBusy||!$("#zoom").hidden) return;
+  const v=ph.querySelector("video"), im=ph.querySelector("img"), media=$("#zoomMedia");
+  let el, ar, cap;
+  if(v){
+    el=document.createElement("video");
+    el.src=v.currentSrc||v.src; el.poster=v.poster; el.muted=true; el.loop=true; el.playsInline=true; el.setAttribute("playsinline","");
+    const t=v.currentTime; el.addEventListener("loadedmetadata",()=>{ try{ el.currentTime=t; }catch(e){} el.play().catch(()=>{}); },{once:true});
+    ar=(v.videoWidth&&v.videoHeight)?v.videoWidth/v.videoHeight:16/9;
+    v.pause(); zoomFrom=v;
+    const room=ph.closest(".scene").id.replace("scene-",""); cap="CGI walkthrough · "+((CLIPS[room]||{}).cap||"");
+  } else {
+    el=document.createElement("img"); el.src=im.src; el.alt=im.alt;
+    ar=(im.naturalWidth&&im.naturalHeight)?im.naturalWidth/im.naturalHeight:4/3; zoomFrom=null;
+    const fc=ph.closest("figure")&&ph.closest("figure").querySelector("figcaption"); cap=fc?fc.textContent:"";
+  }
+  el.className="zoom-el"; media.innerHTML=""; media.appendChild(el);
+  const from=boxOf(ph), to=zoomFinal(ar);
+  Object.assign(el.style, px(to)); el.dataset.ar=ar;
+  $("#zoomCap").textContent=cap; placeCap(to);
+  zoomSrc=ph; // the tour and its voiceover carry on while a picture or video is enlarged
+  $("#zoom").hidden=false; ph.style.visibility="hidden"; zoomBusy=true;
+  el.animate([px(from), px(to)], {duration:ZOOM_MS, easing:ZOOM_EASE});
+  $("#zoomBg").animate([{opacity:0},{opacity:1}], {duration:ZOOM_MS, easing:"ease"});
+  [$("#zoomCap"),$("#zoomX")].forEach(x=>x.animate([{opacity:0},{opacity:0,offset:.6},{opacity:1}], {duration:ZOOM_MS+120, easing:"ease"}));
+  zoomOpenTimer=setTimeout(()=>{ zoomBusy=false; $("#zoomX").focus({preventScroll:true}); }, ZOOM_MS);
+}
+function closeZoom(){
+  const o=$("#zoom"); if(o.hidden||zoomClosing) return; // a click while it is still growing sends it straight back
+  clearTimeout(zoomOpenTimer);
+  const el=$("#zoomMedia .zoom-el"), ph=zoomSrc;
+  const done=()=>{ zoomBusy=false; zoomClosing=false; o.hidden=true; if(ph) ph.style.visibility=""; zoomSrc=null; };
+  if(!el||!ph||!ph.closest(".scene").classList.contains("on")){ done(); return; }
+  zoomBusy=true; zoomClosing=true;
+  ph.style.visibility="hidden";
+  const back=boxOf(ph), now=boxOf(el);
+  el.getAnimations().forEach(an=>an.cancel()); [$("#zoomBg"),$("#zoomCap"),$("#zoomX")].forEach(x=>x.getAnimations().forEach(an=>an.cancel()));
+  const a=el.animate([px(now), px(back)], {duration:ZOOM_MS, easing:ZOOM_EASE, fill:"forwards"});
+  $("#zoomBg").animate([{opacity:1},{opacity:0}], {duration:ZOOM_MS, easing:"ease", fill:"forwards"});
+  [$("#zoomCap"),$("#zoomX")].forEach(x=>x.animate([{opacity:1},{opacity:0}], {duration:Math.min(180,ZOOM_MS), fill:"forwards"}));
+  const fin=()=>{ done(); [$("#zoomBg"),$("#zoomCap"),$("#zoomX")].forEach(x=>x.getAnimations().forEach(an=>an.cancel())); };
+  if(ZOOM_MS) a.finished.then(fin,fin); else fin();
+}
+$("#zoomBg").addEventListener("click", closeZoom);
+$("#zoomCap").addEventListener("click", closeZoom);
+$("#zoomX").addEventListener("click", closeZoom);
+addEventListener("resize", ()=>{ const el=$("#zoomMedia .zoom-el"); if(el&&!$("#zoom").hidden&&!zoomBusy){ const to=zoomFinal(+el.dataset.ar); Object.assign(el.style, px(to)); placeCap(to); } });
+stage.addEventListener("click",e=>{ const ph=e.target.closest(".zoomable .media .photo"); if(ph) openZoom(ph); });
+stage.addEventListener("keydown",e=>{ const ph=e.target.closest&&e.target.closest(".zoomable .media .photo"); if(ph&&(e.key==="Enter"||e.key===" ")){ e.preventDefault(); openZoom(ph); } });
+/* Once the enlarged view is closed, the slide's video carries on from where the big one was */
+new MutationObserver(()=>{
+  if(!$("#zoom").hidden) return;
+  const z=$("#zoomMedia video");
+  if(zoomFrom){ const v=zoomFrom; zoomFrom=null; if(z) v.currentTime=z.currentTime; if(v.closest(".scene").classList.contains("on")) v.play().catch(()=>{}); }
+  if(zoomSrc){ zoomSrc.style.visibility=""; zoomSrc=null; }
+  zoomBusy=false; zoomClosing=false; clearTimeout(zoomOpenTimer); $("#zoomMedia").innerHTML="";
+}).observe($("#zoom"),{attributes:true,attributeFilter:["hidden"]});
+
+/* Overlays */
+function openOverlay(id){ if(id!=="costs") pause(); /* the voiceover carries on while costs are open */ const o=$("#"+id); o.hidden=false; const b=o.querySelector("[data-close]"); b&&b.focus(); }
+document.querySelectorAll(".overlay:not(.zoom)").forEach(o=>{
+  o.addEventListener("click",e=>{ if(e.target===o||e.target.hasAttribute("data-close")) o.hidden=true; });
+});
+stage.addEventListener("click",e=>{
+  const b=e.target.closest("[data-cost]"); if(!b) return;
+  const key=b.dataset.cost, secs=COSTS[key]||[];
+  const gbp=n=>"£"+Math.round(n).toLocaleString("en-GB");
+  const sum=rows=>rows.reduce((a,r)=>a+(typeof r[1]==="number"?r[1]:0),0);
+  $("#costTitle").textContent=ROOMS[key].name;
+  const multi=secs.length>1;
+  const body=secs.map(sec=>`
+    ${multi?`<tr class="sec"><th colspan="2">${sec.title}</th></tr>`:""}
+    ${sec.rows.map(r=>`<tr><td>${r[0]}</td><td class="n">${typeof r[1]==="number"?gbp(r[1]):"To be quoted"}</td></tr>`).join("")}
+    ${multi?`<tr class="sub"><td>${sec.title} subtotal</td><td class="n">${gbp(sum(sec.rows))}</td></tr>`:""}`).join("");
+  const total=secs.reduce((a,sec)=>a+sum(sec.rows),0);
+  $("#costBody").innerHTML=`<div style="overflow-x:auto"><table>
+    <thead><tr><th>Item</th><th class="n">Cost</th></tr></thead>
+    <tbody>${body}</tbody>
+    <tfoot><tr><td>${key==="shared"?"Total for these spaces":"Total for this room"}</td><td class="n">${gbp(total)}</td></tr></tfoot></table></div>
+    <p class="note">Costings prepared by the Tŷ Krishna project team, based on current quotes. Any line can be sponsored on its own.</p>`;
+  openOverlay("costs");
+});
+if($("#chapBtn")) $("#chapBtn").onclick=()=>{
+  $("#chapList").innerHTML=SCENES.map((s,i)=>`<button data-go="${i}" class="${i===st.i?"cur":""}"><small>${i+1}</small>${s.chapter}</button>`).join("");
+  openOverlay("chapters");
+};
+$("#chapList").addEventListener("click",e=>{
+  const b=e.target.closest("[data-go]"); if(!b) return; $("#chapters").hidden=true; goTo(+b.dataset.go,false);
+});
+const fullScript = () => SCENES.map((s,i)=>`${i+1}. ${s.chapter.toUpperCase()}\n${s.beats.join(" ")}`).join("\n\n");
+if($("#scriptBtn")) $("#scriptBtn").onclick=()=>{
+  const words=SCENES.reduce((n,s)=>n+s.beats.join(" ").split(/\s+/).length,0);
+  $("#scriptMeta").textContent=`${words} words · about ${Math.round(words/140*10)/10} minutes at a relaxed pace. Read each chapter as one take; leave a short breath between lines.`;
+  $("#scriptBody").innerHTML=SCENES.map((s,i)=>`<div class="script-scene"><h3>${i+1}. ${s.chapter}</h3>${s.beats.map(b=>`<p>${b}</p>`).join("")}</div>`).join("");
+  openOverlay("script");
+};
+$("#copyScript").onclick=async e=>{
+  const btn=e.currentTarget;
+  try{ await navigator.clipboard.writeText(fullScript()); btn.textContent="Copied"; }
+  catch(err){ const r=document.createRange(); r.selectNodeContents($("#scriptBody")); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); btn.textContent="Selected: press Ctrl+C"; }
+  setTimeout(()=>btn.textContent="Copy",2500);
+};
+
+/* Keyboard: Space = play/pause, arrows = chapters, Esc = close */
+document.addEventListener("keydown",e=>{
+  const open=[...document.querySelectorAll(".overlay")].find(o=>!o.hidden);
+  if(e.key==="Escape"&&open){ if(open.id==="zoom") closeZoom(); else open.hidden=true; return; }
+  if(open||!$("#start").hidden) return;
+  if(e.key===" "){ e.preventDefault(); musicUnlock(); st.playing?pause():play(); }
+  if(e.key==="ArrowRight") goTo(st.i+1);
+  if(e.key==="ArrowLeft") goTo(st.i-1);
+});
+
+/* Start screen */
+$("#startTour").onclick=()=>{ musicUnlock(); $("#start").hidden=true; st.voice=true; if(synth) synth.cancel(); goTo(0,true); keepAwake(); };
+$("#startBrowse").onclick=()=>{ $("#start").hidden=true; goTo(0,false); $("#next").focus(); };
+
+
+
+goTo(0,false);
+setCaption("");
+</script>
+
+</body></html>
